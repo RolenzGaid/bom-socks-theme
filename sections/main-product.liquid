@@ -25,6 +25,12 @@
 {{ 'product-form-input.css' | asset_url | stylesheet_tag }}
 {{ 'dynamic-checkout.css' | asset_url | stylesheet_tag }}
 
+{%- assign sock_bundle_block = section.blocks | where: 'type', 'sock_bundle' | first -%}
+{%- if sock_bundle_block -%}
+  {{ 'sock-bundle.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'sock-bundle.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
 <link rel="stylesheet" href="{{ 'component-deferred-media.css' | asset_url }}" media="print" onload="this.media='all'">
 
 <style>
@@ -125,15 +131,21 @@
           <a class="skip-to-content-link button visually-hidden" href="#ProductInfo-{{ section.id }}">
             {{ 'accessibility.skip_to_product_info' | t }}
           </a>
-          {%- render 'product-page-layout-1',
-            product: product,
-            media_width: media_width,
-            page_width: page_width,
-            media_height: section.settings.media_height,
-            gallery_layout: gallery_layout,
-            hide_variants: hide_variants,
-            first_3d_model: first_3d_model
-          -%}
+          <div class="sock-bundle-gallery">
+            {%- render 'product-page-layout-1',
+              product: product,
+              media_width: media_width,
+              page_width: page_width,
+              media_height: section.settings.media_height,
+              gallery_layout: gallery_layout,
+              hide_variants: hide_variants,
+              first_3d_model: first_3d_model
+            -%}
+          </div>
+
+          {%- if sock_bundle_block -%}
+            {%- render 'sock-bundle-picker', block: sock_bundle_block, section: section -%}
+          {%- endif -%}
         </div>
       </div>
       <div class="{{ content_column }}">
@@ -580,6 +592,9 @@
                     </div>
                   </div>
                 </noscript>
+
+              {%- when 'sock_bundle' -%}
+                {%- render 'sock-bundle', block: block, section: section, product: product -%}
 
               {%- when 'buy_buttons' -%}
                 <div {{ block.shopify_attributes }}>
@@ -1524,6 +1539,295 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "sock_bundle",
+      "name": "Sock bundle (pack size)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Lets shoppers pick a 2, 3 or 4 sock pack. Choosing a pack opens a sock picker in the product image column so they can choose which socks go in the pack. Each pack can carry its own Shopify discount code."
+        },
+        {
+          "type": "header",
+          "content": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Choose your pack size"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_step_number",
+          "label": "Show step number",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "step_number",
+          "label": "Step number",
+          "default": "1"
+        },
+        {
+          "type": "header",
+          "content": "Sock picker"
+        },
+        {
+          "type": "collection",
+          "id": "bundle_collection",
+          "label": "Socks customers can choose from",
+          "info": "Products in this collection appear in the picker. Required for 2, 3 and 4 packs."
+        },
+        {
+          "type": "text",
+          "id": "picker_heading",
+          "label": "Picker heading",
+          "default": "Pick your socks"
+        },
+        {
+          "type": "range",
+          "id": "products_limit",
+          "min": 8,
+          "max": 50,
+          "step": 2,
+          "label": "Maximum socks to show",
+          "default": 48
+        },
+        {
+          "type": "checkbox",
+          "id": "picker_replaces_gallery",
+          "label": "Hide product photos while picking",
+          "default": true,
+          "info": "The picker takes over the left column. Turn off to show the picker below the photos."
+        },
+        {
+          "type": "text",
+          "id": "picker_back_text",
+          "label": "\"Back to photos\" link text",
+          "default": "Back to product photos"
+        },
+        {
+          "type": "checkbox",
+          "id": "prefill_current_product",
+          "label": "Pre-fill the first slot with this product",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "slots_heading",
+          "label": "Chosen socks heading",
+          "default": "Your socks"
+        },
+        {
+          "type": "header",
+          "content": "Single"
+        },
+        {
+          "type": "text",
+          "id": "single_label",
+          "label": "Label",
+          "default": "Single"
+        },
+        {
+          "type": "text",
+          "id": "single_sub",
+          "label": "Sub-label",
+          "info": "Optional small text, e.g. \"1 pair\"."
+        },
+        {
+          "type": "header",
+          "content": "2 socks"
+        },
+        {
+          "type": "checkbox",
+          "id": "tier2_enable",
+          "label": "Show this pack",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "tier2_label",
+          "label": "Label",
+          "default": "2 Pack"
+        },
+        {
+          "type": "text",
+          "id": "tier2_badge",
+          "label": "Top badge",
+          "default": "10% OFF"
+        },
+        {
+          "type": "text",
+          "id": "tier2_sub",
+          "label": "Sub-label",
+          "info": "Optional small text, e.g. \"$13.50 / pair\"."
+        },
+        {
+          "type": "text",
+          "id": "tier2_note",
+          "label": "Bottom badge",
+          "default": "Pick any 2"
+        },
+        {
+          "type": "text",
+          "id": "tier2_code",
+          "label": "Discount code",
+          "info": "Shopify discount code applied when this pack is added to cart. Create it in Discounts first."
+        },
+        {
+          "type": "header",
+          "content": "3 socks"
+        },
+        {
+          "type": "checkbox",
+          "id": "tier3_enable",
+          "label": "Show this pack",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "tier3_label",
+          "label": "Label",
+          "default": "3 Pack"
+        },
+        {
+          "type": "text",
+          "id": "tier3_badge",
+          "label": "Top badge",
+          "default": "15% OFF"
+        },
+        {
+          "type": "text",
+          "id": "tier3_sub",
+          "label": "Sub-label"
+        },
+        {
+          "type": "text",
+          "id": "tier3_note",
+          "label": "Bottom badge",
+          "default": "Pick any 3"
+        },
+        {
+          "type": "text",
+          "id": "tier3_code",
+          "label": "Discount code",
+          "info": "Shopify discount code applied when this pack is added to cart."
+        },
+        {
+          "type": "header",
+          "content": "4 socks"
+        },
+        {
+          "type": "checkbox",
+          "id": "tier4_enable",
+          "label": "Show this pack",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "tier4_label",
+          "label": "Label",
+          "default": "4 Pack"
+        },
+        {
+          "type": "text",
+          "id": "tier4_badge",
+          "label": "Top badge",
+          "default": "20% OFF"
+        },
+        {
+          "type": "text",
+          "id": "tier4_sub",
+          "label": "Sub-label"
+        },
+        {
+          "type": "text",
+          "id": "tier4_note",
+          "label": "Bottom badge",
+          "default": "Pick any 4"
+        },
+        {
+          "type": "text",
+          "id": "tier4_code",
+          "label": "Discount code",
+          "info": "Shopify discount code applied when this pack is added to cart."
+        },
+        {
+          "type": "header",
+          "content": "Add to cart"
+        },
+        {
+          "type": "text",
+          "id": "atc_text",
+          "label": "Button text",
+          "default": "Add bundle to cart"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_total",
+          "label": "Show bundle total",
+          "default": true,
+          "info": "Shows the total before the discount code is applied."
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_default_buy_buttons",
+          "label": "Hide the normal add to cart while a pack is selected",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "after_add_to_cart",
+          "label": "After adding a pack",
+          "default": "cart",
+          "info": "A discount code always needs a redirect to be applied, so \"Stay on page\" falls back to the cart when a code is set.",
+          "options": [
+            {
+              "value": "cart",
+              "label": "Go to cart"
+            },
+            {
+              "value": "checkout",
+              "label": "Go to checkout"
+            },
+            {
+              "value": "stay",
+              "label": "Stay on page"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Badge colors"
+        },
+        {
+          "type": "color",
+          "id": "badge_background",
+          "label": "Top badge background",
+          "default": "#E8FF4D"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Top badge text",
+          "default": "#121212"
+        },
+        {
+          "type": "color",
+          "id": "note_background",
+          "label": "Bottom badge background",
+          "default": "#E8FF4D"
+        },
+        {
+          "type": "color",
+          "id": "note_text_color",
+          "label": "Bottom badge text",
+          "default": "#121212"
+        }
+      ]
     },
     {
       "type": "text",

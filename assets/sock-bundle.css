@@ -1,0 +1,469 @@
+/* ==========================================================================
+   Sock Bundle — tiered pack-size selector + multi-sock picker
+   Used by the "Sock bundle" block in sections/main-product.liquid
+   ========================================================================== */
+
+sock-bundle {
+  display: block;
+}
+
+.sock-bundle {
+  --sb-radius: 12px;
+  --sb-border: rgba(var(--color-foreground), 0.14);
+  --sb-border-active: rgb(var(--color-foreground));
+  margin-bottom: 2.4rem;
+}
+
+/* ---------- Heading ---------- */
+
+.sock-bundle__head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.sock-bundle__step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(var(--color-foreground), 0.08);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.sock-bundle__heading {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Tier cards ---------- */
+
+.sock-bundle__tiers {
+  display: grid;
+  grid-template-columns: repeat(var(--sb-tier-count, 4), minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+@media screen and (max-width: 479px) {
+  .sock-bundle__tiers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.sock-bundle__tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: 8.4rem;
+  padding: 2rem 0.6rem 1.8rem;
+  border: 1px solid var(--sb-border);
+  border-radius: var(--sb-radius);
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sock-bundle__tier:hover {
+  border-color: rgba(var(--color-foreground), 0.4);
+}
+
+.sock-bundle__tier[aria-checked='true'] {
+  border-color: var(--sb-border-active);
+  box-shadow: inset 0 0 0 1px var(--sb-border-active);
+}
+
+.sock-bundle__tier-label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.sock-bundle__tier-sub {
+  font-size: 1.1rem;
+  line-height: 1.3;
+  opacity: 0.65;
+}
+
+.sock-bundle__tier-badge,
+.sock-bundle__tier-note {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 0.8rem);
+  padding: 0.25rem 0.3rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sock-bundle__tier-badge {
+  top: 0.4rem;
+  background: var(--sb-badge-bg, #e8ff4d);
+  color: var(--sb-badge-text, #121212);
+}
+
+.sock-bundle__tier-note {
+  bottom: 0.4rem;
+  background: var(--sb-note-bg, #e8ff4d);
+  color: var(--sb-note-text, #121212);
+}
+
+/* ---------- Slots (chosen socks) ---------- */
+
+.sock-bundle__slots-wrap {
+  margin-top: 1.6rem;
+}
+
+.sock-bundle__slots-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.sock-bundle__slots-count {
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+.sock-bundle__slots {
+  display: grid;
+  grid-template-columns: repeat(var(--sb-slot-count, 2), minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.sock-bundle__slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.4rem 0.8rem;
+  border: 1px dashed var(--sb-border);
+  border-radius: var(--sb-radius);
+  background: rgba(var(--color-foreground), 0.02);
+  text-align: center;
+}
+
+.sock-bundle__slot--filled {
+  border-style: solid;
+}
+
+.sock-bundle__slot--active {
+  border-color: var(--sb-border-active);
+}
+
+.sock-bundle__slot-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sock-bundle__slot-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sock-bundle__slot-plus {
+  font-size: 2.4rem;
+  font-weight: 300;
+  line-height: 1;
+  opacity: 0.4;
+}
+
+.sock-bundle__slot-title {
+  font-size: 1.1rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sock-bundle__slot-variant {
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+.sock-bundle__slot-remove {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  z-index: 2;
+}
+
+/* ---------- Bundle summary + ATC ---------- */
+
+.sock-bundle__summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+  font-size: 1.4rem;
+}
+
+.sock-bundle__summary-total {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.sock-bundle__summary-compare {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+
+.sock-bundle__summary-save {
+  margin-left: auto;
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+}
+
+.sock-bundle__atc {
+  width: 100%;
+  margin-top: 1.2rem;
+}
+
+.sock-bundle__atc[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sock-bundle__error {
+  margin-top: 0.8rem;
+  font-size: 1.2rem;
+  color: #d72c0d;
+}
+
+.sock-bundle__error:empty {
+  display: none;
+}
+
+/* Hide the theme's default add-to-cart form while a multi-pack tier is active */
+.sock-bundle-mode .product_buy_button_form,
+body.sock-bundle-mode .product__sticky {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Picker (rendered in the product media column)
+   ========================================================================== */
+
+.sock-bundle-picker {
+  display: none;
+  border: 1px solid rgba(var(--color-foreground), 0.14);
+  border-radius: 12px;
+  padding: 1.6rem;
+  background: rgb(var(--color-background));
+}
+
+.sock-bundle-picker.is-visible {
+  display: block;
+}
+
+.sock-bundle-picker__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.sock-bundle-picker__title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.sock-bundle-picker__progress {
+  font-size: 1.2rem;
+  opacity: 0.65;
+}
+
+.sock-bundle-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 1.2rem;
+  max-height: 62rem;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+@media screen and (max-width: 749px) {
+  .sock-bundle-picker__grid {
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    max-height: 42rem;
+  }
+}
+
+.sock-bundle-picker__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.sock-bundle-picker__card-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+.sock-bundle-picker__card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.05);
+}
+
+.sock-bundle-picker__card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.sock-bundle-picker__card-btn:hover .sock-bundle-picker__card-media img {
+  transform: scale(1.04);
+}
+
+.sock-bundle-picker__card-count {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  min-width: 2.2rem;
+  height: 2.2rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  border-radius: 1.1rem;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.sock-bundle-picker__card[data-picked]:not([data-picked='0']) .sock-bundle-picker__card-count {
+  display: flex;
+}
+
+.sock-bundle-picker__card[data-picked]:not([data-picked='0']) .sock-bundle-picker__card-media {
+  box-shadow: inset 0 0 0 2px rgb(var(--color-foreground));
+}
+
+.sock-bundle-picker__card-title {
+  font-size: 1.2rem;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sock-bundle-picker__card-price {
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+.sock-bundle-picker__card-variants {
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid rgba(var(--color-foreground), 0.2);
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+}
+
+.sock-bundle-picker__card--soldout {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.sock-bundle-picker__empty {
+  padding: 2rem 0;
+  font-size: 1.3rem;
+  opacity: 0.7;
+}
+
+/* Hide the gallery while picking, when the block is set to replace it */
+.sock-bundle-gallery-hidden .sock-bundle-gallery {
+  display: none;
+}
+
+.sock-bundle-picker__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.2rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 1.2rem;
+  color: rgb(var(--color-foreground));
+  opacity: 0.7;
+  cursor: pointer;
+  text-decoration: underline;
+}
