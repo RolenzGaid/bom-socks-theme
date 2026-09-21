@@ -354,7 +354,9 @@ body.sock-bundle-mode .product__sticky {
 }
 
 .sock-bundle-picker__card-btn {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   width: 100%;
   padding: 0;
   border: 0;
@@ -366,6 +368,7 @@ body.sock-bundle-mode .product__sticky {
 }
 
 .sock-bundle-picker__card-media {
+  display: block;
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -421,6 +424,7 @@ body.sock-bundle-mode .product__sticky {
 }
 
 .sock-bundle-picker__card-price {
+  display: block;
   font-size: 1.2rem;
   opacity: 0.7;
 }
