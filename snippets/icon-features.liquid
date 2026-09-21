@@ -1,0 +1,481 @@
+{%- if icon != 'none' -%}
+  {%- case icon -%}
+    {%- when 'truck' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewbox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-truck"
+      >
+        <rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle>
+      </svg>
+    {%- when 'award' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-award"
+      >
+        <circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+      </svg>
+    {%- when 'alarm' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-bell"
+      >
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+    {%- when 'camera' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-camera"
+      >
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle>
+      </svg>
+    {%- when 'check' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-check"
+      >
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    {%- when 'clock' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-clock"
+      >
+        <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+    {%- when 'compass' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-compass"
+      >
+        <circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+      </svg>
+    {%- when 'card' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-credit-card"
+      >
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line>
+      </svg>
+    {%- when 'dollar' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-dollar-sign"
+      >
+        <line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+      </svg>
+    {%- when 'gift' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-gift"
+      >
+        <polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+      </svg>
+    {%- when 'lock' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-lock"
+      >
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+    {%- when 'map' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-map"
+      >
+        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line>
+      </svg>
+    {%- when 'mic' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-mic"
+      >
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line>
+      </svg>
+    {%- when 'monitor' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-monitor"
+      >
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>
+      </svg>
+    {%- when 'moon' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-moon"
+      >
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    {%- when 'music' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-music"
+      >
+        <path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle>
+      </svg>
+    {%- when 'phone' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-phone-call"
+      >
+        <path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94m-1 7.98v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+      </svg>
+    {%- when 'printer' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-printer"
+      >
+        <polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+    {%- when 'compare' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-repeat"
+      >
+        <polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+      </svg>
+    {%- when 'search' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-search"
+      >
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    {%- when 'cart' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-shopping-cart"
+      >
+        <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+    {%- when 'bag' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-shopping-bag"
+      >
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+    {%- when 'smart_phone' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-smartphone"
+      >
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>
+      </svg>
+    {%- when 'smile' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-smile"
+      >
+        <circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line>
+      </svg>
+    {%- when 'sun' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-sun"
+      >
+        <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    {%- when 'thumbs_up' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-thumbs-up"
+      >
+        <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+      </svg>
+    {%- when 'thumbs_down' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-thumbs-down"
+      >
+        <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+      </svg>
+    {%- when 'trash' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-trash"
+      >
+        <polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+    {%- when 'umbrella' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-umbrella"
+      >
+        <path d="M23 12a11.05 11.05 0 0 0-22 0zm-5 7a3 3 0 0 1-6 0v-7"></path>
+      </svg>
+    {%- when 'user' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-user"
+      >
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    {%- when 'users' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-users"
+      >
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+    {%- when 'watch' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-watch"
+      >
+        <circle cx="12" cy="12" r="7"></circle><polyline points="12 9 12 12 13.5 13.5"></polyline><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"></path>
+      </svg>
+    {%- when 'shipment' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="50"
+        height="50"
+        viewBox="0 0 50 50"
+        fill="none"
+      >
+        <path d="M46.8242 33.4819L40.8451 28.3569C40.2789 27.872 39.5565 27.6048 38.8117 27.6048H38.3154C39.1513 25.4533 39.582 23.184 39.582 20.834C39.582 10.4949 31.1711 2.08398 20.832 2.08398C10.493 2.08398 2.08203 10.4949 2.08203 20.834C2.08203 29.6428 8.16432 37.1965 16.6654 39.1189V43.2298C16.6654 43.8048 17.132 44.2715 17.707 44.2715H20.432C20.9076 46.3559 22.7727 47.9173 24.9987 47.9173C27.2247 47.9173 29.0898 46.3559 29.5654 44.2715H35.0154C35.4909 46.3559 37.356 47.9173 39.582 47.9173C41.8081 47.9173 43.6732 46.3559 44.1487 44.2715H44.7904C46.5138 44.2715 47.9154 42.8699 47.9154 41.1465V35.8548C47.9154 34.9408 47.5175 34.0762 46.8242 33.4819ZM34.8206 11.7902C36.3341 14.123 37.2805 16.8553 37.4628 19.7923H30.193C30.1352 17.5746 29.8925 15.471 29.4956 13.5392C31.307 13.097 33.0841 12.5132 34.8206 11.7902ZM18.7487 23.4382C17.5997 23.4382 16.6654 24.3725 16.6654 25.5215V27.3314C15.8451 27.4267 15.0284 27.5402 14.2195 27.6887C13.8471 25.8736 13.6174 23.9095 13.5586 21.8757H28.0982C28.0836 22.3996 28.057 22.9204 28.0232 23.4382H18.7487ZM13.5555 19.7923C13.6122 17.6809 13.8388 15.7288 14.1956 13.972C16.3685 14.371 18.5826 14.584 20.832 14.584C23.0815 14.584 25.2956 14.371 27.4685 13.972C27.8253 15.7293 28.0523 17.6814 28.1086 19.7923H13.5555ZM33.5393 10.0668C32.057 10.6579 30.543 11.1392 29.0029 11.5152C28.2492 8.83242 27.1753 6.58034 25.8763 4.94961C28.8925 5.91003 31.5367 7.70742 33.5393 10.0668ZM20.832 4.16732C23.1576 4.16732 25.5909 7.08971 26.9758 11.9444C24.9638 12.3069 22.9138 12.5007 20.832 12.5007C18.7497 12.5007 16.7003 12.3069 14.6883 11.9444C16.0732 7.08971 18.5065 4.16732 20.832 4.16732ZM15.7872 4.94961C14.4888 6.57982 13.4148 8.83242 12.6607 11.5152C11.1206 11.1392 9.60703 10.6579 8.12474 10.0668C10.1273 7.70742 12.7716 5.91003 15.7872 4.94961ZM6.84349 11.7902C8.57995 12.5132 10.357 13.097 12.169 13.5392C11.7716 15.471 11.5294 17.5746 11.4716 19.7923H4.2013C4.38359 16.8553 5.32995 14.123 6.84349 11.7902ZM6.82422 29.8809C5.31276 27.5382 4.38151 24.7991 4.2013 21.8757H11.4758C11.5346 24.0652 11.7784 26.1715 12.1805 28.1236C10.3539 28.5684 8.56536 29.1553 6.82422 29.8809ZM8.09974 31.6038C9.58776 31.01 11.1133 30.5272 12.6664 30.1491C13.4107 32.8079 14.4716 35.0772 15.7732 36.7204C12.7237 35.7564 10.0867 33.9553 8.09974 31.6038ZM14.7128 29.7142C15.3596 29.598 16.0112 29.5059 16.6654 29.4251V34.359C15.8862 33.0897 15.2232 31.51 14.7128 29.7142ZM24.9987 45.834C23.5628 45.834 22.3945 44.6658 22.3945 43.2298C22.3945 41.7939 23.5628 40.6257 24.9987 40.6257C26.4346 40.6257 27.6029 41.7939 27.6029 43.2298C27.6029 44.6658 26.4346 45.834 24.9987 45.834ZM31.2487 42.1882H29.5654C29.0898 40.1038 27.2247 38.5423 24.9987 38.5423C22.7727 38.5423 20.9076 40.1038 20.432 42.1882H18.7487V25.5215H31.2487V42.1882ZM31.2487 23.4382H30.1117C30.1435 22.9199 30.1674 22.3991 30.1815 21.8757H37.4648C37.344 23.8684 36.8721 25.7882 36.0622 27.6048H33.332V25.5215C33.332 24.3725 32.3977 23.4382 31.2487 23.4382ZM39.582 45.834C38.1461 45.834 36.9779 44.6658 36.9779 43.2298C36.9779 41.7939 38.1461 40.6257 39.582 40.6257C41.018 40.6257 42.1862 41.7939 42.1862 43.2298C42.1862 44.6658 41.018 45.834 39.582 45.834ZM45.832 41.1465C45.832 41.721 45.3648 42.1882 44.7904 42.1882H44.1487C43.6732 40.1038 41.8081 38.5423 39.582 38.5423C37.356 38.5423 35.4909 40.1038 35.0154 42.1882H33.332V29.6882H38.8117C39.0602 29.6882 39.3003 29.7772 39.4893 29.9387L45.4685 35.0637C45.6997 35.2616 45.832 35.5501 45.832 35.8548V41.1465ZM41.6654 35.9382C41.6654 36.5132 41.1987 36.9798 40.6237 36.9798H36.457C35.882 36.9798 35.4154 36.5132 35.4154 35.9382V32.8132C35.4154 32.2382 35.882 31.7715 36.457 31.7715C37.032 31.7715 37.4987 32.2382 37.4987 32.8132V34.8965H40.6237C41.1987 34.8965 41.6654 35.3632 41.6654 35.9382Z" fill="currentColor"/>
+      </svg>
+    {%- when 'payment' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="37"
+        height="37"
+        viewBox="0 0 37 37"
+        fill="none"
+      >
+        <g clip-path="url(#clip0_205_893)">
+          <path d="M35.3179 18.6552V13.4549C35.3179 11.6915 33.9502 10.2575 32.222 10.1184L27.3927 1.68318C26.9451 0.903038 26.2225 0.345445 25.3577 0.11391C24.4971 -0.116049 23.5971 0.00472492 22.8268 0.453054L6.27148 10.0913H3.36385C1.50881 10.0913 0.000244141 11.5998 0.000244141 13.4549V33.6364C0.000244141 35.4914 1.50873 37 3.36385 37H31.9543C33.8094 37 35.3179 35.4915 35.3179 33.6364V28.4361C36.2946 28.0878 36.9997 27.1632 36.9997 26.0683V21.023C36.9997 19.9281 36.2946 19.0035 35.3179 18.6552ZM30.2678 10.0913H22.9386L28.4356 6.89095L30.2678 10.0913ZM27.6 5.4315L19.5961 10.0913H16.2761L26.7699 3.98166L27.6 5.4315ZM23.6734 1.90651C24.0537 1.68397 24.4979 1.62484 24.9225 1.7382C25.352 1.85314 25.71 2.13072 25.9326 2.51913L25.9343 2.52221L12.9338 10.0913H9.61404L23.6734 1.90651ZM33.6361 33.6364C33.6361 34.5635 32.8814 35.3181 31.9543 35.3181H3.36385C2.43676 35.3181 1.68209 34.5635 1.68209 33.6364V13.4549C1.68209 12.5278 2.43676 11.7731 3.36385 11.7731H31.9543C32.8814 11.7731 33.6361 12.5278 33.6361 13.4549V18.5003H28.5907C25.8085 18.5003 23.5453 20.7634 23.5453 23.5456C23.5453 26.3279 25.8085 28.591 28.5907 28.591H33.6361V33.6364ZM35.3179 26.0683C35.3179 26.5323 34.941 26.9093 34.477 26.9093H28.5907C26.7357 26.9093 25.2271 25.4008 25.2271 23.5456C25.2271 21.6906 26.7356 20.182 28.5907 20.182H34.477C34.9409 20.182 35.3179 20.5589 35.3179 21.023V26.0683Z" fill="currentColor"/>
+          <path d="M28.5922 21.8633C27.6651 21.8633 26.9104 22.618 26.9104 23.545C26.9104 24.4721 27.6651 25.2268 28.5922 25.2268C29.5193 25.2268 30.2739 24.4721 30.2739 23.545C30.274 22.618 29.5193 21.8633 28.5922 21.8633Z" fill="currentColor"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_205_893">
+            <rect width="37" height="37" fill="currentColor"/>
+          </clipPath>
+        </defs>
+      </svg>
+    {%- when 'return' -%}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 40 40"
+        fill="none"
+      >
+        <g clip-path="url(#clip0_128_2659)">
+          <path d="M4.79297 23.4346H5.4175C5.84898 23.4346 6.19875 23.0847 6.19875 22.6533C6.19875 22.2219 5.84898 21.8721 5.4175 21.8721H4.79297C4.36148 21.8721 4.01172 22.2219 4.01172 22.6533C4.01172 23.0847 4.36148 23.4346 4.79297 23.4346Z" fill="currentColor"/>
+          <path d="M13.2859 23.4346C13.7174 23.4346 14.0672 23.0847 14.0672 22.6533C14.0672 22.2219 13.7174 21.8721 13.2859 21.8721H8.54687C8.11539 21.8721 7.76562 22.2219 7.76562 22.6533C7.76562 23.0847 8.11539 23.4346 8.54687 23.4346H13.2859Z" fill="currentColor"/>
+          <path d="M4.79297 27.1426H13.2834C13.7149 27.1426 14.0647 26.7927 14.0647 26.3613C14.0647 25.9299 13.7149 25.5801 13.2834 25.5801H4.79297C4.36148 25.5801 4.01172 25.9299 4.01172 26.3613C4.01172 26.7927 4.36148 27.1426 4.79297 27.1426Z" fill="currentColor"/>
+          <path d="M30.6812 16.1522V3.04914C30.6812 1.64781 29.54 0.507812 28.1373 0.507812H2.5418C1.14023 0.507812 0 1.64789 0 3.04914V12.3365C0 12.7679 0.349766 13.1177 0.78125 13.1177C1.21273 13.1177 1.5625 12.7679 1.5625 12.3365V3.04914C1.5625 2.50937 2.0018 2.07031 2.5418 2.07031H9.7882V12.2037C9.7882 12.4868 9.94141 12.7478 10.1886 12.8858C10.4358 13.0238 10.7384 13.0173 10.9794 12.8687L15.3395 10.1813L19.6997 12.8687C20.2117 13.1843 20.8909 12.8023 20.8909 12.2036V2.07031H28.1373C28.6784 2.07031 29.1187 2.50937 29.1187 3.04914V15.9239C28.8138 15.9002 28.5057 15.8879 28.1948 15.8879C21.6855 15.8879 16.3897 21.1823 16.3897 27.69C16.3897 28.3467 16.4445 28.9908 16.5482 29.6186H2.5418C2.0018 29.6186 1.5625 29.1785 1.5625 28.6376V19.3502C1.5625 18.9188 1.21273 18.569 0.78125 18.569C0.349766 18.569 0 18.9188 0 19.3502V28.6377C0 30.0402 1.14023 31.1812 2.5418 31.1812H16.917C18.4094 35.9898 22.9006 39.4922 28.1948 39.4922C34.7042 39.4922 40 34.1977 40 27.6901C40 22.0349 36.0006 17.2968 30.6812 16.1522ZM19.3284 10.8045L15.7495 8.59859C15.4981 8.44375 15.1809 8.44375 14.9296 8.59859L11.3507 10.8045V2.07031H19.3284V10.8045ZM28.1948 37.9297C22.547 37.9297 17.9522 33.3362 17.9522 27.6901C17.9522 22.044 22.547 17.4505 28.1948 17.4505C33.8427 17.4505 38.4375 22.0439 38.4375 27.6901C38.4375 33.3363 33.8427 37.9297 28.1948 37.9297Z" fill="currentColor"/>
+          <path d="M29.6152 23.1648H26.6308L28.0237 21.7735C28.3289 21.4686 28.3292 20.9739 28.0243 20.6686C27.7194 20.3633 27.2248 20.3631 26.9194 20.6679L24.1911 23.3933C23.8899 23.6918 23.8899 24.2003 24.1911 24.4987L26.9194 27.2241C27.072 27.3765 27.2717 27.4526 27.4715 27.4526C27.6716 27.4526 27.8716 27.3762 28.0242 27.2235C28.3291 26.9183 28.3289 26.4236 28.0237 26.1186L26.6308 24.7272H29.6152C31.5057 24.7272 33.0437 26.2647 33.0437 28.1546C33.0437 30.0457 31.5057 31.5842 29.6152 31.5842H22.5664C22.1349 31.5842 21.7852 31.934 21.7852 32.3654C21.7852 32.7969 22.1349 33.1467 22.5664 33.1467H29.6152C32.3673 33.1467 34.6062 30.9072 34.6062 28.1546C34.6062 25.4033 32.3673 23.1648 29.6152 23.1648Z" fill="currentColor"/>
+          <path d="M0.78125 16.6272C1.21273 16.6272 1.5625 16.2752 1.5625 15.8438C1.5625 15.4123 1.21273 15.0625 0.78125 15.0625C0.349766 15.0625 0 15.4123 0 15.8438V15.8482C0 16.2796 0.349766 16.6272 0.78125 16.6272Z" fill="currentColor"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_128_2659">
+          <rect width="40" height="40" fill="currentColor"/>
+          </clipPath>
+        </defs>
+      </svg>
+    {%- when 'surprise' -%}
+      <svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37" fill="none">
+        <g clip-path="url(#clip0_128_2674)">
+          <path d="M36.1957 9.63084H24.8737C25.8775 9.12086 26.8475 8.49353 27.6294 7.71169C29.3957 5.94537 29.3957 3.07223 27.6294 1.30584C25.9177 -0.40584 22.9352 -0.40743 21.2235 1.30584C19.9623 2.56702 19.0727 4.30125 18.5 5.91314C17.9273 4.30125 17.0377 2.56702 15.7765 1.30584C14.0632 -0.40743 11.079 -0.40584 9.37061 1.30584C7.60429 3.07216 7.60429 5.9453 9.37061 7.71169C10.1525 8.49353 11.1225 9.12086 12.1263 9.63084H0.804316C0.360316 9.63084 0 9.99116 0 10.4352V16.8699C0 17.3139 0.360316 17.6742 0.804316 17.6742H1.60863V36.1742C1.60863 36.6182 1.96895 36.9785 2.41295 36.9785H15.2825H21.7173H34.5868C35.0308 36.9785 35.3911 36.6182 35.3911 36.1742V17.6742H36.1955C36.6395 17.6742 36.9998 17.3139 36.9998 16.8699V10.4352C37 9.99116 36.6397 9.63084 36.1957 9.63084ZM14.4783 35.37H3.21741V17.6743H14.4783V35.37ZM14.4783 16.0656H2.41302H1.6087V11.2395H14.4783V16.0656ZM10.508 6.5743C9.36902 5.43532 9.36902 3.58214 10.508 2.44316C11.0597 1.88975 11.7933 1.58732 12.5736 1.58732C13.3538 1.58732 14.0857 1.88975 14.6391 2.44316C16.7063 4.51032 17.678 8.34704 17.7005 9.60504C17.7005 9.61307 17.6989 9.62434 17.6989 9.63077H17.6104C16.3025 9.58582 12.5494 8.61414 10.508 6.5743ZM20.913 35.37H16.0869V17.6743H20.913V35.37ZM20.913 16.0656H16.0869V11.2395H17.7439H17.7455H19.2545H19.256H20.913V16.0656ZM19.3896 9.63084H19.3011C19.3011 9.62441 19.2995 9.61314 19.2995 9.60512C19.3221 8.34712 20.2937 4.51039 22.3609 2.44323C22.9143 1.88982 23.6462 1.58739 24.4264 1.58739C25.2067 1.58739 25.9403 1.88982 26.492 2.44323C27.631 3.58221 27.631 5.43539 26.492 6.57437C24.4506 8.61414 20.6975 9.58582 19.3896 9.63084ZM33.7826 35.37H22.5217V17.6743H33.7826V35.37ZM35.3913 16.0656H34.587H22.5217V11.2395H35.3913V16.0656Z" fill="currentColor"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_128_2674">
+            <rect width="37" height="37" fill="currentColor"/>
+          </clipPath>
+        </defs>
+      </svg>
+  {%- endcase -%}
+{%- endif -%}

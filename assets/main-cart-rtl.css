@@ -1,0 +1,18 @@
+.cart-items th{
+  text-align: right !important;
+}
+@media screen and (min-width: 750px) {
+    .cart-item>td+td {
+        padding-left: 4rem;
+        padding-right: 2rem;
+    }
+}
+.price--end {
+    justify-content: flex-start !important;
+}
+@media (min-width: 750px) {
+    .totals {
+        justify-content: flex-start !important;
+        gap: 10px;
+    }
+}

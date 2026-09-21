@@ -1,0 +1,31 @@
+.product-grid-item__actions.justify-content-end {
+    right: 20px;
+    left: auto;
+    padding-right: 0;
+  }
+.swiper-slide
+  .product--color-swatch-wrapper
+  .product--color-swatch:first-child
+  .swatch--variant-tooltip {
+  transform: translateY(-70%);
+  left: auto;
+  right: 0;
+}
+.swiper-slide
+  .product--color-swatch-wrapper
+  .product--color-swatch:first-child:hover
+  .swatch--variant-tooltip {
+  transform: translateY(-40%);
+}
+.swiper-slide
+  .product--color-swatch-wrapper
+  .product--color-swatch:first-child
+  .swatch--variant-tooltip:after {
+  left: auto;
+  right: 5px;
+  transform: translate(0);
+}
+.product-grid-item__actions.justify-content-start {
+    left: 20px;
+    right: auto;
+  }

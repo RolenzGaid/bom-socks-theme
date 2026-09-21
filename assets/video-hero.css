@@ -1,0 +1,136 @@
+@media only screen and (min-width: 750px) {
+  .video-hero-height--extra-small {
+    height: 35rem;
+  }
+  .video-hero-height--small {
+    height: 45rem;
+  }
+  .video-hero-height--medium {
+    height: 55rem;
+  }
+  .video-hero-height--large {
+    height: 65rem;
+  }
+  .video-hero-height--extra-large {
+    height: 72rem;
+  }
+}
+
+@media only screen and (max-width: 749px) {
+  .video-hero-mobile-height--extra-small {
+    height: 22rem;
+  }
+  .video-hero-mobile-height--small {
+    height: 28rem;
+  }
+  .video-hero-mobile-height--medium {
+    height: 35rem;
+  }
+  .video-hero-mobile-height--large {
+    height: 42rem;
+  }
+  .video-hero-mobile-height--extra-large {
+    height: 50rem;
+  }
+}
+
+.media-banner-inner video {
+  position: relative;
+  object-fit: cover;
+}
+
+.media-banner-inner video,
+.media-banner-inner iframe {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.media-banner-inner iframe {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 300%;
+  max-width: none;
+}
+
+@media only screen and (min-width: 1200px) {
+  .media-banner-inner iframe {
+    width: 100%;
+    height: 300%;
+    left: auto;
+    top: -100%;
+  }
+}
+
+.media-banner-text-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  padding: 3rem;
+  background: rgba(0, 0, 0, var(--video-overlay-opacity, 0.5));
+}
+
+.media-banner-inner {
+  position: relative;
+}
+
+.media-banner-radius {
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+.media-banner-text-inner > .media-banner-text + * {
+  margin-top: 1.5rem;
+}
+
+.media-banner-text-inner > * + .media-banner-text {
+  margin-top: 1rem;
+}
+
+.media-banner-text-content-width {
+  height: 100%;
+  width: 100%;
+  /* max-width: calc(var(--container-lg-width) - 3rem); */
+  margin: 0 auto;
+}
+
+.media-banner-text-inner > * + a {
+  margin-top: 2rem;
+}
+
+.media-banner-text {
+  max-width: 70rem;
+}
+
+.media-banner-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.media-banner {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+/* Additional responsive styles for text content */
+@media only screen and (max-width: 749px) {
+  .media-banner-text-content {
+    padding: 2rem;
+  }
+  
+  .media-banner-text {
+    max-width: 100%;
+  }
+}
+
+/* Ensure proper stacking context */
+.media-banner-text-inner {
+  color: rgba(var(--color-foreground));
+  position: relative;
+  z-index: 1;
+}

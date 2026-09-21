@@ -1,0 +1,48 @@
+<style type="text/css">
+  .template-404 .title + * {
+    margin-top: 1rem;
+    color: rgb(var(--color-foreground));
+  }
+
+  @media screen and (min-width: 750px) {
+    .template-404 .title + * {
+      margin-top: 2rem;
+    color: rgb(var(--color-foreground));
+    }
+  }
+  .template-404{
+  	height: 70vh;
+    background: rgb(var(--color-background));
+  }
+</style>
+
+<div class="template-404 text-center color-{{ section.settings.color_scheme }} section--padding d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="title">
+          {{ 'templates.404.title' | t }}
+        </h1>
+        <p>
+          {{ 'templates.404.subtext' | t }}
+        </p>
+        <a href="{{ routes.all_products_collection_url }}" class="button button--solid">
+          {{ 'general.continue_shopping' | t }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "404",
+    "settings": [
+		{
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "default": "scheme-12",
+          "label": "t:sections.main-password-footer.settings.color_scheme.label"
+        }
+	]
+  }
+{% endschema %}

@@ -1,0 +1,8 @@
+.faq__list--item--heading{
+  text-align: right !important;
+  padding-right: 0 !important;
+}
+span.faq__button--icon{
+  right: auto !important;
+  left: 0 !important;
+}

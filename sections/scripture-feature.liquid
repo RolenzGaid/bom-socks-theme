@@ -1,0 +1,596 @@
+{%- liquid
+  assign featured_product = section.settings.featured_product
+  assign has_featured_product = false
+  assign product_placeholder_class = 'scripture-product-placeholder-' | append: section.id
+
+  if featured_product != blank
+    assign has_featured_product = true
+  endif
+-%}
+
+{%- style -%}
+  .section-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    color: {{ section.settings.text_color }};
+    overflow: hidden;
+  }
+
+  .scripture-container-{{ section.id }} {
+    width: 100%;
+    max-width: {{ section.settings.content_width }}px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* --- KICKER --- */
+  .scripture-kicker-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: {{ section.settings.accent_color }};
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 3rem;
+  }
+
+  .scripture-kicker-{{ section.id }}::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background-color: {{ section.settings.accent_color }};
+    opacity: 0.5;
+  }
+
+  /* --- MAIN CONTENT LAYOUT --- */
+  .scripture-main-{{ section.id }} {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "quote";
+    align-items: center;
+  }
+
+  .scripture-main-{{ section.id }}.has-featured-product {
+    gap: clamp(1rem, 1vw, 1rem);
+  }
+
+  .scripture-main-{{ section.id }}.has-featured-product.product-position-right {
+    grid-template-columns: minmax(0, 1fr) minmax(180px, {{ section.settings.product_image_size | plus: 40 }}px);
+    grid-template-areas: "quote product";
+  }
+
+  .scripture-main-{{ section.id }}.has-featured-product.product-position-left {
+    grid-template-columns: minmax(180px, {{ section.settings.product_image_size | plus: 40 }}px) minmax(0, 1fr);
+    grid-template-areas: "product quote";
+  }
+
+  .scripture-main-{{ section.id }}.has-featured-product.product-position-top {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "product"
+      "quote";
+  }
+
+  .scripture-main-{{ section.id }}.has-featured-product.product-position-bottom {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "quote"
+      "product";
+  }
+
+  /* --- QUOTE AREA --- */
+  .scripture-quote-wrapper-{{ section.id }} {
+    grid-area: quote;
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+
+  .scripture-main-{{ section.id }}.has-featured-product .scripture-quote-wrapper-{{ section.id }} {
+    max-width: 980px;
+  }
+
+  .scripture-main-{{ section.id }}.product-position-right .scripture-quote-wrapper-{{ section.id }} {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  .scripture-main-{{ section.id }}.product-position-left .scripture-quote-wrapper-{{ section.id }} {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .scripture-main-{{ section.id }}.product-position-top .scripture-quote-wrapper-{{ section.id }},
+  .scripture-main-{{ section.id }}.product-position-bottom .scripture-quote-wrapper-{{ section.id }} {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Decorative Background Text (Watermark) */
+  .scripture-watermark-{{ section.id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-heading-family, serif);
+    font-size: 250px;
+    font-weight: 700;
+    line-height: 1;
+    color: {{ section.settings.accent_color }};
+    opacity: 0.10;
+    z-index: 0;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .scripture-content-{{ section.id }} {
+    position: relative;
+    z-index: 1;
+  }
+
+  .scripture-icon-{{ section.id }} {
+    color: {{ section.settings.accent_color }};
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 2rem;
+  }
+
+  .scripture-icon-{{ section.id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .scripture-text-{{ section.id }} {
+    font-family: var(--font-heading-family, serif);
+    font-size: 25px;
+    font-style: italic;
+    line-height: 1.4;
+    color: {{ section.settings.text_color }};
+    margin: 0 0 2rem;
+  }
+
+  .scripture-ref-{{ section.id }} {
+    color: {{ section.settings.accent_color }};
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 0;
+  }
+
+  /* --- FEATURED PRODUCT --- */
+  .scripture-product-{{ section.id }} {
+    grid-area: product;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .scripture-product-image-link-{{ section.id }} {
+    display: block;
+    width: min(100%, {{ section.settings.product_image_size }}px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    border: {{ section.settings.product_border_width }}px solid {{ section.settings.product_border_color }};
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    animation: scripture-product-float-{{ section.id }} {{ section.settings.animation_duration }}s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .scripture-product-image-link-{{ section.id }} img,
+  .scripture-product-placeholder-{{ section.id }} {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .scripture-product-placeholder-{{ section.id }} {
+    background: rgba(255, 255, 255, 0.06);
+    fill: rgba(255, 255, 255, 0.25);
+  }
+
+  .scripture-product-title-{{ section.id }} {
+    display: inline-block;
+    margin-top: 1.25rem;
+    max-width: {{ section.settings.product_image_size | plus: 60 }}px;
+    color: {{ section.settings.product_title_color }};
+    font-size: {{ section.settings.product_title_size }}px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+  }
+
+  .scripture-product-title-{{ section.id }}:hover,
+  .scripture-product-title-{{ section.id }}:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  @keyframes scripture-product-float-{{ section.id }} {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-{{ section.settings.animation_distance }}px);
+    }
+  }
+
+  /* --- FOOTER AREA --- */
+  .scripture-footer-text-{{ section.id }} {
+    color: #888888;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 2.5rem auto 0;
+  }
+
+  /* --- RESPONSIVE ADJUSTMENTS --- */
+  @media screen and (max-width: 990px) {
+    .scripture-main-{{ section.id }}.has-featured-product {
+      gap: 2.5rem;
+    }
+
+    .scripture-main-{{ section.id }}.has-featured-product.product-position-right {
+      grid-template-columns: minmax(0, 1fr) minmax(160px, {{ section.settings.product_image_size | times: 0.82 | round }}px);
+    }
+
+    .scripture-main-{{ section.id }}.has-featured-product.product-position-left {
+      grid-template-columns: minmax(160px, {{ section.settings.product_image_size | times: 0.82 | round }}px) minmax(0, 1fr);
+    }
+
+    .scripture-product-image-link-{{ section.id }} {
+      width: min(100%, {{ section.settings.product_image_size | times: 0.82 | round }}px);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .scripture-container-{{ section.id }} {
+      padding: 0 1.5rem;
+    }
+
+    .scripture-kicker-{{ section.id }} {
+      margin-bottom: 2rem;
+    }
+
+    .scripture-main-{{ section.id }}.has-featured-product {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .scripture-main-{{ section.id }}.has-featured-product.product-position-left,
+    .scripture-main-{{ section.id }}.has-featured-product.product-position-top {
+      grid-template-areas:
+        "product"
+        "quote";
+    }
+
+    .scripture-main-{{ section.id }}.has-featured-product.product-position-right,
+    .scripture-main-{{ section.id }}.has-featured-product.product-position-bottom {
+      grid-template-areas:
+        "quote"
+        "product";
+    }
+
+    .scripture-main-{{ section.id }}.has-featured-product .scripture-quote-wrapper-{{ section.id }} {
+      margin: 0 auto;
+    }
+
+    .scripture-text-{{ section.id }} {
+      font-size: 25px;
+    }
+
+    .scripture-product-image-link-{{ section.id }} {
+      width: min(100%, {{ section.settings.product_mobile_image_size }}px);
+    }
+
+    .scripture-product-title-{{ section.id }} {
+      max-width: {{ section.settings.product_mobile_image_size | plus: 50 }}px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scripture-product-image-link-{{ section.id }} {
+      animation: none;
+    }
+  }
+{%- endstyle -%}
+
+<section class="section-{{ section.id }}">
+  <div class="scripture-container-{{ section.id }}">
+    {%- if section.settings.kicker != blank -%}
+      <div class="scripture-kicker-{{ section.id }}">
+        {{ section.settings.kicker }}
+      </div>
+    {%- endif -%}
+
+    <div class="scripture-main-{{ section.id }}{% if has_featured_product %} has-featured-product product-position-{{ section.settings.product_position }}{% endif %}">
+      <div class="scripture-quote-wrapper-{{ section.id }}">
+        {%- if section.settings.watermark != blank -%}
+          <div class="scripture-watermark-{{ section.id }}" aria-hidden="true">
+            {{ section.settings.watermark }}
+          </div>
+        {%- endif -%}
+
+        <div class="scripture-content-{{ section.id }}">
+          <div class="scripture-icon-{{ section.id }}" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+            </svg>
+          </div>
+
+          {%- if section.settings.quote_text != blank -%}
+            <h2 class="scripture-text-{{ section.id }}">
+              {{ section.settings.quote_text }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.quote_ref != blank -%}
+            <p class="scripture-ref-{{ section.id }}">
+              {{ section.settings.quote_ref }}
+            </p>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- if has_featured_product -%}
+        {%- liquid
+          assign product_image_alt = featured_product.featured_image.alt | default: featured_product.title
+        -%}
+
+        <div class="scripture-product-{{ section.id }}">
+          <a
+            class="scripture-product-image-link-{{ section.id }}"
+            href="{{ featured_product.url }}"
+            aria-label="{{ featured_product.title | escape }}"
+          >
+            {%- if featured_product.featured_image != blank -%}
+              {{ featured_product.featured_image
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '180, 240, 320, 480, 640, 800, 900',
+                  sizes: '(min-width: 769px) 280px, 220px',
+                  alt: product_image_alt
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: product_placeholder_class }}
+            {%- endif -%}
+          </a>
+
+          <a class="scripture-product-title-{{ section.id }}" href="{{ featured_product.url }}">
+            {{ featured_product.title }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.footer_text != blank -%}
+      <div class="scripture-footer-text-{{ section.id }}">
+        {{ section.settings.footer_text }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scripture Feature",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#0f0f0f"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Yellow)",
+      "default": "#ebb30b"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Main Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Width",
+      "default": 1400
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker Text",
+      "default": "SCRIPTURE OF THE SEASON"
+    },
+    {
+      "type": "text",
+      "id": "watermark",
+      "label": "Background Watermark Text",
+      "default": "BOM",
+      "info": "This appears large and faded behind the main quote."
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote Text",
+      "default": "And now, my beloved brethren, I would that ye should come unto Christ, who is the Holy One of Israel, and partake of his salvation."
+    },
+    {
+      "type": "text",
+      "id": "quote_ref",
+      "label": "Quote Reference",
+      "default": "OMNI 1:26"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_text",
+      "label": "Footer Text",
+      "default": "Every design starts here. We turn everyday moments into bold, joyful expressions of faith — one ridiculously comfortable step at a time."
+    },
+    {
+      "type": "header",
+      "content": "Featured Product"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Choose Product"
+    },
+    {
+      "type": "select",
+      "id": "product_position",
+      "label": "Product Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "product_image_size",
+      "min": 160,
+      "max": 360,
+      "step": 10,
+      "unit": "px",
+      "label": "Product Image Size — Desktop",
+      "default": 240
+    },
+    {
+      "type": "range",
+      "id": "product_mobile_image_size",
+      "min": 140,
+      "max": 280,
+      "step": 10,
+      "unit": "px",
+      "label": "Product Image Size — Mobile",
+      "default": 200
+    },
+    {
+      "type": "color",
+      "id": "product_title_color",
+      "label": "Product Title Color",
+      "default": "#ebb30b"
+    },
+    {
+      "type": "range",
+      "id": "product_title_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Title Size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "product_border_color",
+      "label": "Product Circle Border Color",
+      "default": "#ebb30b"
+    },
+    {
+      "type": "range",
+      "id": "product_border_width",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "label": "Product Circle Border Width",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "min": 4,
+      "max": 14,
+      "step": 1,
+      "unit": "s",
+      "label": "Floating Animation Speed",
+      "info": "Higher values make the floating motion slower.",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "animation_distance",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Floating Distance",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scripture Feature"
+    }
+  ]
+}
+{% endschema %}

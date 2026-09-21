@@ -1,0 +1,55 @@
+{%- comment -%}
+  {% render 'lookbook-card',
+    product: product,
+    hotspot_x: block.settings.hotspot_x,
+    hotspot_y: block.settings.hotspot_y,
+    color: section.settings.card_color_scheme,
+    foorloop: forloop,
+    quick_shop: block.settings.quick_shop
+  %}
+{%- endcomment -%}
+
+<div
+  class="lookbook__shop--product-wrapper color-{{ color }}"
+  style="--hotspot-x: {{ hotspot_x }}%; --hotspot-y: {{ hotspot_y }}%;"
+>
+  <button
+    type="button"
+    data-index="{{ forloop.index0 }}"
+    class="look__hotspot lookbook--product-hotspot {% if hotspot_y > 70 %} lookbook__shop--bottom {% endif %} {% if forloop.first == true %}active{% endif %}"
+    aria-label="{{ 'products.product.select_options' | t }}"
+    style="background: rgb(var(--color-foreground)); border: 2px solid rgb(var(--color-background))"
+  >
+    <span class="look__hotspot--arrow">
+      <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 12 12" fill="none">
+        <script xmlns=""/>
+        <g clip-path="url(#clip0_128_2243)">
+          <path d="M11.4 5.4H6.60004V0.599963C6.60004 0.268835 6.3312 0 5.99996 0C5.66884 0 5.4 0.268835 5.4 0.599963V5.4H0.599963C0.268835 5.4 0 5.66884 0 5.99996C0 6.3312 0.268835 6.60004 0.599963 6.60004H5.4V11.4C5.4 11.7312 5.66884 12 5.99996 12C6.3312 12 6.60004 11.7312 6.60004 11.4V6.60004H11.4C11.7312 6.60004 12 6.3312 12 5.99996C12 5.66884 11.7312 5.4 11.4 5.4Z" fill="currentColor"/>
+        </g>
+        <defs>
+        <clipPath id="clip0_128_2243">
+        <rect width="12" height="12" fill="currentColor"/>
+        </clipPath>
+        </defs>
+      </svg>
+    </span>
+  </button>
+
+  {% if product != blank %}
+    <div class="lookbook__shop--product {% if hotspot_y > 70 %} lookbook__shop--product-bottom {% endif %} {% if hotspot_x > 85 %} lookbook__shop--product-right {% endif %} {% if hotspot_x < 15 %} lookbook__shop--product-left{% endif %}">
+      <div class="lookbook__shop--product__title h6">
+        {% if quick_shop == false -%}
+          <a href="{{ product.url | default: '#' }}">
+        {% endif %}
+        {{ product.title }}
+        {% if quick_shop == false %}</a>{% endif %}
+      </div>
+      {% render 'price', product: product, price_class: 'lookbook__shop--product__price' %}
+    </div>
+  {% else %}
+    <div class="lookbook__shop--product {% if hotspot_y > 70 %} lookbook__shop--product-bottom {% endif %} {% if hotspot_x > 85 %} lookbook__shop--product-right {% endif %} {% if hotspot_x < 15 %} lookbook__shop--product-left{% endif %}">
+      <div class="lookbook__shop--product__title h6">Example product title {{ forloop.index }}</div>
+      <span class="price lookbook__shop--product__price">$99.99</span>
+    </div>
+  {% endif %}
+</div>

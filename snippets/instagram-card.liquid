@@ -1,0 +1,50 @@
+<a
+  target="_blank"
+  href="{{ block.settings.img_link }}"
+  class=" main-media--{{ image_ratio }} {% if custom_image != blank %} card--media {% else %}{% if image_ratio != 'adapt' %} card--stretch{% endif %}{% endif %} instagram--gallery-card"
+>
+  <div class="instagram--item">
+    <div
+      class=" media media--{{ image_ratio }} media--hover-effect overflow-hidden"
+      style="
+        {% if image_ratio == 'adapt' %}
+          {% if custom_image != blank %} padding-bottom: {{ 1 | divided_by: custom_image.aspect_ratio | times: 100 }}%; {% else %} padding-bottom: 100%; {% endif %}
+        {% endif %}
+        {% if round_image == true %}border-radius: 16px{% endif -%}
+      "
+    >
+      {%- if custom_image != blank -%}
+        <img
+          srcset="
+            {%- if custom_image.width >= 375 -%}{{ custom_image | img_url: '375x' }} 375w,{%- endif -%}
+            {%- if custom_image.image.width >= 550 -%}{{ custom_image.image | img_url: '550x' }} 550w,{%- endif -%}
+            {%- if custom_image.width >= 750 -%}{{ custom_image | img_url: '750x' }} 750w,{%- endif -%}
+            {%- if custom_image.width >= 1100 -%}{{ custom_image | img_url: '1100x' }} 1100w,{%- endif -%}
+            {%- if custom_image.width >= 1500 -%}{{ custom_image | img_url: '1500x' }} 1500w,{%- endif -%}
+            {%- if custom_image.width >= 1780 -%}{{ custom_image | img_url: '1780x' }} 1780w,{%- endif -%}
+            {%- if custom_image.width >= 2000 -%}{{ custom_image | img_url: '2000x' }} 2000w,{%- endif -%}
+            {%- if custom_image.width >= 3000 -%}{{ custom_image | img_url: '3000x' }} 3000w,{%- endif -%}
+            {%- if custom_image.width >= 3840 -%}{{ custom_image | img_url: '3840x' }} 3840w,{%- endif -%}
+            {{ custom_image | img_url: 'master' }} {{ custom_image.width }}w
+          "
+          sizes="(min-width: 990px) 100vw, 100vw"
+          src="{{ custom_image | img_url: '1500x'  }}"
+          alt="{{ custom_image.alt | escape }}"
+          loading="lazy"
+          width="{{ custom_image.width }}"
+          height="{{ custom_image.height }}"
+        >
+      {%- else -%}
+        {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder' }}
+      {%- endif -%}
+    </div>
+    <div
+      class="instagram-overlay-card"
+      style="{% if round_image == true %}border-radius: 16px{% endif -%}; --overlay_ratio: {{ overlay_ratio }}"
+    >
+      <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px">
+        <path d="M 16 3 C 8.8324839 3 3 8.8324839 3 16 L 3 34 C 3 41.167516 8.8324839 47 16 47 L 34 47 C 41.167516 47 47 41.167516 47 34 L 47 16 C 47 8.8324839 41.167516 3 34 3 L 16 3 z M 16 5 L 34 5 C 40.086484 5 45 9.9135161 45 16 L 45 34 C 45 40.086484 40.086484 45 34 45 L 16 45 C 9.9135161 45 5 40.086484 5 34 L 5 16 C 5 9.9135161 9.9135161 5 16 5 z M 37 11 A 2 2 0 0 0 35 13 A 2 2 0 0 0 37 15 A 2 2 0 0 0 39 13 A 2 2 0 0 0 37 11 z M 25 14 C 18.936712 14 14 18.936712 14 25 C 14 31.063288 18.936712 36 25 36 C 31.063288 36 36 31.063288 36 25 C 36 18.936712 31.063288 14 25 14 z M 25 16 C 29.982407 16 34 20.017593 34 25 C 34 29.982407 29.982407 34 25 34 C 20.017593 34 16 29.982407 16 25 C 16 20.017593 20.017593 16 25 16 z"/>
+      </svg>
+    </div>
+  </div>
+</a>

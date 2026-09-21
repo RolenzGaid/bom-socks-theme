@@ -1,0 +1,15 @@
+<style>
+  .slideshow--banner-button .button{
+    font-size: 20px;
+  }
+</style>
+<a
+  {% if button_link %}
+    href="{{ button_link }}"
+  {% else %}
+    role="link" aria-disabled="true"
+  {% endif %}
+  class="button button--{{ button_size }} {{ button_style }}"
+>
+  {{- button_label | escape -}}
+</a>

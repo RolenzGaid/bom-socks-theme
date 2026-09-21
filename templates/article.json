@@ -1,0 +1,168 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page_banner_xQp93i": {
+      "type": "page-banner",
+      "name": "Page banner",
+      "settings": {
+        "heading": "{{ article.title }}",
+        "heading_tag": "h2",
+        "subtitle": "",
+        "content_image_alt": "",
+        "accessibility_label": "",
+        "background_color": "#000000",
+        "background_fit": "cover",
+        "background_position": "center center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "heading_color": "#FFFFFF",
+        "last_word_color": "#FFC400",
+        "subtitle_color": "#FFFFFF",
+        "heading_size_desktop": 70,
+        "heading_size_mobile": 42,
+        "heading_weight": 800,
+        "heading_line_height": 100,
+        "heading_letter_spacing": 0,
+        "subtitle_size_desktop": 20,
+        "subtitle_size_mobile": 17,
+        "subtitle_line_height": 140,
+        "text_alignment": "center",
+        "show_divider": true,
+        "divider_color": "#FFC400",
+        "divider_width": 500,
+        "divider_thickness": 3,
+        "divider_gap_top": 22,
+        "divider_gap_bottom": 34,
+        "min_height_desktop": 500,
+        "min_height_mobile": 320,
+        "padding_desktop": 64,
+        "padding_mobile": 48,
+        "content_width": 900,
+        "content_image_width_desktop": 900,
+        "content_image_width_mobile": 360
+      }
+    },
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-4",
+        "show_page_title": true,
+        "show_breadcrumb_navigation": true,
+        "text_center": "center",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "mobile_padding_top": 35,
+        "mobile_padding_bottom": 35
+      }
+    },
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "featured_image": {
+          "type": "featured_image",
+          "settings": {
+            "container": "no-offset",
+            "image_height": "medium"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "blog_show_date": true,
+            "blog_show_author": true,
+            "show_comment": true
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share",
+            "share_link": true,
+            "facebook_share": true,
+            "twitter_share": true,
+            "pinterest_share": true,
+            "alignment": "center"
+          }
+        },
+        "aef65687-1f9a-4d22-abe8-12b0256ae4a5": {
+          "type": "back_to_blog",
+          "settings": {
+            "alignment": "center"
+          }
+        },
+        "22ad31c9-d759-4f1c-b14c-aa1130d39669": {
+          "type": "next_prev",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "featured_image",
+        "title",
+        "content",
+        "share",
+        "aef65687-1f9a-4d22-abe8-12b0256ae4a5",
+        "22ad31c9-d759-4f1c-b14c-aa1130d39669"
+      ],
+      "settings": {
+        "page_width": "small",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 80,
+        "mobile_padding_top": 0,
+        "mobile_padding_bottom": 60
+      }
+    },
+    "1653285501d5322211": {
+      "type": "newsletter",
+      "blocks": {
+        "1653285501d8970af8-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe to learn about our latest news.",
+            "heading_size": "h1"
+          }
+        },
+        "1653285501d8970af8-1": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "1653285501d8970af8-0",
+        "1653285501d8970af8-1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "height": "small",
+        "image_overlay_opacity": 0,
+        "form_position": "right",
+        "content_wrapper_width": "full",
+        "content_alignment": "center",
+        "show_devider": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "mobile_padding_top": 0,
+        "mobile_padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "page_banner_xQp93i",
+    "breadcrumbs",
+    "main",
+    "1653285501d5322211"
+  ]
+}

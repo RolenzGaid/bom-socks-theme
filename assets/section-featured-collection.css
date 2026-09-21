@@ -1,0 +1,55 @@
+.product_slider_wrapper {
+    position: relative;
+}
+.product__slider--buton {
+    width: 5rem;
+    background: transparent;
+    color: rgba(var(--color-foreground), .9);
+    height: 3rem;
+    padding: 0;
+    box-shadow: 0 0 5px 2pxrgba (var(--color-foreground),.15);
+    transition: var(--transition);
+    position: unset;
+    left: unset;
+    right: unset;
+    margin: 0;
+}
+.featured__collection--slider.slider--controls--button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+}
+.product__slider--pagination.swiper-pagination-fraction {
+    width: unset;
+    font-size: 1.6rem;
+}
+.product__slider--buton:after {
+    font-size: 1.6rem;
+}
+.product__slider--buton:hover {
+   color: rgba(var(--color-foreground));
+}
+.product_slider_wrapper:hover .product__slider--buton {
+	opacity: 1;
+}
+.product_slider_wrapper:hover .swiper-button-prev.product__slider--buton{
+   left: 20px;
+}
+.product_slider_wrapper:hover .swiper-button-next.product__slider--buton{
+   right: 20px;
+}
+.product__slider--pagination .swiper-pagination-bullet {
+    background: rgba(var(--color-foreground));
+    width: 1rem;
+    height: 1rem;
+}
+.swiper-pagination.product__slider--pagination {
+    position: unset;
+}
+.swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+    pointer-events: painted;
+}
+.product_slider_wrapper:hover .product__slider--buton.swiper-button-disabled {
+	opacity: 0.5;
+}

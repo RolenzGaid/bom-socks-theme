@@ -1,0 +1,6 @@
+@media only screen and (min-width: 991px) {
+    .form__right .newsletter--signup__form.form__width {
+        padding-left: 0rem !important;
+        padding-right: 10rem;
+    }
+}

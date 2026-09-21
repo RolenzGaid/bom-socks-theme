@@ -1,0 +1,128 @@
+<div class="collection__card">
+  <div class="card--stretch">
+    <div class="team--card-wrapper">
+      {%- if custom_image != blank -%}
+        <div
+          class="media media--{{ image_ratio }} {% if round_image %} collection--rounded-media {% endif %} media--hover-effect overflow-hidden card--client-height {% if round_image %} border-radius {% endif %}"
+
+          style="
+            {%- if image_ratio == 'adapt' -%}
+              {% if custom_image != blank %} padding-bottom: {{ 1 | divided_by: custom_image.aspect_ratio | times: 100 }}%; {% else %} padding-bottom: 100%; {% endif %}
+            {%- endif -%}
+            {% if round_image == true %}border-radius: 16px{% endif -%}
+          "
+        >
+          {%- capture sizes -%} (min-width: 768px) {% if columns > "1" %}calc((100vw - 10rem) / 2){% else %}calc(100vw - 10rem){% endif %}, calc(100vw - 3rem) {%- endcapture -%}
+          {% liquid
+            assign height = custom_image.width | divided_by: custom_image.aspect_ratio | round
+          %}
+          {{
+            custom_image
+            | image_url: width: 1500
+            | image_tag:
+              loading: 'lazy',
+              height: height,
+              sizes: sizes,
+              widths: '165, 360, 750, 1000, 1500, 1780, 2000, 3000, 3840'
+          }}
+        </div>
+
+      {%- else -%}
+        <div
+          class="placeholder_svg_parent media--{{ image_ratio }} card--client-height {% if round_image %} border-radius {% endif %}"
+          style="
+            {%- if image_ratio == 'adapt' -%}
+              padding-bottom: 100%;
+            {%- endif -%}
+            {% if round_image == true %}border-radius: 16px{% endif -%}
+          "
+        >
+          {% if round_image %}
+            {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg rounded--image' }}
+          {% else %}
+            {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      {%- endif -%}
+
+      <div
+        class="team__card_text card_plain__text {{ content__position }} d-flex align-items-center {% if section.settings.column == "5" %} column__five--design {% endif %}"
+        style="--content-align-self: {{ content__alignment }}"
+      >
+        <div class="team__card_inner">
+          {% if single_title != '' %}
+            <h5 class="single__title mb-0">{{- single_title | capitalize -}}</h5>
+          {% endif %}
+          {% if single_designation != '' %}
+            <span class="single__designation">{{- single_designation -}}</span>
+          {% endif %}
+        </div>
+      </div>
+      {% if show__social %}
+        <div
+          class="team__card_social {{ social__position }} d-flex align-items-center social"
+          style="--social-align-self: {{ social__alignment }}; --social-justify: {{ social__direction }}"
+        >
+          <div class="team__card_inner_social">
+            <div class="list-unstyled list-socials">
+              {%- if facebook != blank -%}
+                <a
+                  href="{{ facebook }}"
+                  class="link link--text list-social__link facebook"
+                  aria-describedby="a11y-external-message"
+                >
+                  {%- render 'icon-facebook' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+                </a>
+              {%- endif -%}
+
+              {%- if instagram != blank -%}
+                <a
+                  href="{{ instagram }}"
+                  class="link link--text list-social__link instagram"
+                  aria-describedby="a11y-external-message"
+                >
+                  {%- render 'icon-instagram' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+                </a>
+              {%- endif -%}
+
+              {%- if twitter != blank -%}
+                <a
+                  href="{{ twitter }}"
+                  class="link link--text list-social__link twitter {{ className }}"
+                  aria-describedby="a11y-external-message"
+                >
+                  {%- render 'icon-twitter' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+                </a>
+              {%- endif -%}
+
+              {%- if pinterest != blank -%}
+                <a
+                  href="{{ pinterest }}"
+                  class="link link--text list-social__link pinterest"
+                  aria-describedby="a11y-external-message"
+                >
+                  {%- render 'icon-pinterest' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+                </a>
+              {%- endif -%}
+
+              {%- if youtube != blank -%}
+                <a
+                  href="{{ youtube }}"
+                  class="link link--text list-social__link youtube"
+                  aria-describedby="a11y-external-message"
+                >
+                  {%- render 'icon-youtube' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

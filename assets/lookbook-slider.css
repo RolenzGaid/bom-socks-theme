@@ -1,0 +1,34 @@
+@media only screen and (min-width: 992px) {
+  .grid.desktop-row-reverse {
+    flex-direction: row-reverse;
+  }
+}
+.swiper.lookbook--slider:not(.swiper-initialized) .swiper-slide {
+  width: 50%;
+}
+
+.swiper.lookbook--slider:not(.swiper-initialized) .swiper-wrapper {
+  gap: 2.54rem;
+}
+.grid__item.lookbook--slider-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.lookbook--slider-inner {
+  width: 100%;
+}
+.lookbook__product--card {
+  transition: var(--transition);
+}
+.swiper.lookbook--slider.lookbook__hover--active
+  .swiper-slide:not(.swiper-slide-active)
+  .lookbook__product--card {
+  opacity: 0.5;
+}
+.lookbook--slider .swiper-wrapper {
+  box-sizing: border-box;
+}
+.look__hotspot:focus-visible {
+  border: 1rem solid rgba(var(--color-foreground), 0.15);
+}

@@ -1,0 +1,83 @@
+.img_rel {
+  display: block;
+}
+.category__banner--single {
+  overflow: hidden;
+  position: relative;
+  margin-top: -11px;
+}
+.single-category__content--three {
+  position: absolute;
+  bottom: 100px;
+  left: 50px;
+  width: calc(100% - 100px);
+}
+.single-category__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  z-index: 5;
+  position: relative;
+}
+.single-category__content .title p {
+  margin: 0;
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  margin-bottom: 0;
+  -webkit-transition-duration: 0.6s;
+  -o-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+}
+.single-category__content .title a {
+  display: inline-block;
+  -webkit-transform: translateY(60%);
+  -ms-transform: translateY(60%);
+  transform: translateY(60%);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition-duration: 0.6s;
+  -o-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition: all 250ms ease-out;
+  -moz-transition: all 250ms ease-out;
+  -ms-transition: all 250ms ease-out;
+  -o-transition: all 250ms ease-out;
+  transition: all 250ms ease-out;
+  transition-duration: 250ms;
+}
+.category__banner--single:hover > .single-category__content .title p {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transform: translateY(-60%);
+  -ms-transform: translateY(-60%);
+  transform: translateY(-60%);
+}
+.category__banner--single:hover > .single-category__content .title a {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+.category__banner--single.text-right .single-category__content .title a {
+  top: 0;
+  right: 2px;
+  left: auto;
+}
+
+.category__banner--single.text-right .single-category__content--three {
+  bottom: 100px;
+  left: auto;
+  width: 100%;
+  right: 35px;
+  justify-content: flex-end;
+}

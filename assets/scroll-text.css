@@ -1,0 +1,31 @@
+.announcement-bar {
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  color: rgb(var(--color-foreground));
+  background: rgb(var(--color-background));
+  position: relative;
+  padding: 10px 0;
+}
+.announcement-text {
+  text-align: center;
+}
+button.close__announcement--bar {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9;
+}
+button.close__announcement--bar.modal__close-button.link {
+  width: 30px;
+  height: 30px;
+}
+
+.announcement-slide-btn.swiper-button-next {
+  right: 10px !important;
+}
+.announcement-slide-btn.swiper-button-prev {
+  left: 10px !important;
+}
+.announcement-slide-btn:after {
+  display: none;
+}

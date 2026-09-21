@@ -1,0 +1,524 @@
+{% liquid
+  assign theme_rtl = false
+  if settings.enable_rtl and settings.langauges_rtl == blank
+    assign theme_rtl = true
+  endif
+
+  if settings.enable_rtl and settings.langauges_rtl != blank
+    assign rtl_languages = settings.langauges_rtl | split: ','
+    for language in rtl_languages
+      if language == request.locale.iso_code
+        assign theme_rtl = true
+      endif
+    endfor
+  endif
+%}
+{{ 'section-featured-blog.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  {%- if section.settings.show_round_corner -%}
+    #section--{{ section.id }} {
+      --round_corner: 10px;
+    }
+  {% endif %}
+  .blog__title--heading.cnter_titl {
+      text-align: center;
+  }
+  span.person_svg svg {
+      width: auto;
+      height: 1.7rem;
+      position: relative;
+      top: 0.3rem;
+  }
+  span.article__button--title a {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      letter-spacing: 1px;
+      color: rgba(var(--color-foreground), 1);
+      text-transform: uppercase;
+      font-weight: 500;
+      font-size: 1.5rem;
+  }
+  span.article__button--title a:hover {
+      color: rgba(var(--color-foreground), 0.6);
+
+  }
+  .meta__info--item+.meta__info--item:before{
+
+    display:none;
+  }
+  .meta__info--item+.meta__info--item {
+      padding-left: 2rem;
+      margin-left: 0;
+      position: relative;
+  }
+  span.person_svg svg#Capa_1 {
+      margin-right: 3px;
+  }
+
+  .blog-articles__article.article {
+      margin-bottom: 45px;
+  }
+
+  .featured--blog .article__meta {
+      margin-bottom: 0rem;
+      display: block;
+  }
+  .featured--blog  a.blog-readmore-btn {
+  	text-decoration: underline;
+  	text-underline-offset: 3px;
+  	letter-spacing: 1px;
+  	color: rgba(var(--color-foreground), 1);
+  	text-transform: uppercase;
+  	font-weight: 500;
+  	font-size: 1.5rem;
+  }
+  .featured--blog  a.blog-readmore-btn:hover {
+  	color: rgba(var(--color-foreground), 0.6);
+  }
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.mobile_padding_top }}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% if theme_rtl %}
+  {{ 'main-blog-rtl.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
+<div
+  id="section--{{ section.id }}"
+  class="blog color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding"
+  data-section-type="blog"
+  data-section-id="{{ section.id }}"
+  style="background:rgb(var(--color-background))"
+>
+  <div class="container">
+    {% if section.settings.heading != blank or section.settings.subtitle != blank %}
+      <div class="section-heading text-{{ section.settings.alignment }} mobile-text-{{ section.settings.mobile_alignment }} mb-50">
+        <h2 class="section-heading__title {{ section.settings.heading_size }} rte">
+          {{- section.settings.heading | replace: 'p>', 'span>' -}}
+        </h2>
+        <span class="section-heading__sub_title">{{- section.settings.text -}}</span>
+      </div>
+    {% endif %}
+    {%- liquid
+      if section.settings.post_limit <= section.settings.blog.articles_count
+        assign posts_exceed_limit = true
+      endif
+    -%}
+    {%- if section.settings.blog != blank and section.settings.blog.articles_count > 0 -%}
+      <div class="featured--blog blog__posts grid standard color-{{ section.settings.color_scheme_card }}">
+        {%- for article in section.settings.blog.articles limit: section.settings.post_limit -%}
+          <div class="blog__post">
+            {% render 'featured-article-card',
+              show_content: section.settings.show_content,
+              blog: section.settings.blog,
+              article: article,
+              show_image: section.settings.show_image,
+              show_date: section.settings.show_date,
+              show_author: section.settings.show_author,
+              show_comment: section.settings.show_comment,
+              hover_arrow: section.settings.hover_arrow,
+              media_height: section.settings.image_ratio,
+              media_aspect_ratio: article.image.aspect_ratio,
+              card_style: 'standard',
+              button_text: section.settings.button_label,
+              button_type: section.settings.button_type,
+              button_size: section.settings.button_size
+            %}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="blog__posts grid standard">
+        {% for i in (1..3) %}
+          {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+          {%- assign placeholder_image = 'blog-apparel-' | append: placeholder_image_index -%}
+          <div class="blog-placeholder color-{{ section.settings.color_scheme_card }}">
+            <article class="article-card">
+              <div class="placeholder media media--landscape">
+                {{ placeholder_image | placeholder_svg_tag: 'placeholder' }}
+              </div>
+              <div class="article-card__info">
+                <h2 class="article-card__title h5 mb-0">
+                  {{ 'sections.featured_blog.onboarding_title' | t }}
+                </h2>
+              </div>
+            </article>
+          </div>
+        {% endfor %}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.blog != blank
+      and section.settings.show_view_all
+      and section.settings.post_limit < section.settings.blog.articles_count
+    -%}
+      <div class="blog__view--all-button col-12">
+        <div class="view__all__button">
+          <a
+            href="{{ section.settings.blog.url }}"
+            class="button button--{{ section.settings.view_button_size }} button--{{ section.settings.view_button_type }}"
+          >
+            {{- section.settings.view_all | escape -}}
+          </a>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.featured-blog.name",
+  "disabled_on": {
+      "groups": ["header","footer"]
+  },
+  "tag": "section",
+  "class": "spaced-section spaced-section--full-width",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Our Latest Blog",
+      "label": "t:sections.featured-blog.settings.heading.label"
+    },
+	{
+        "type": "select",
+        "id": "heading_size",
+        "options": [
+          {
+            "value": "h2",
+            "label": "Small"
+          },
+          {
+            "value": "h1",
+            "label": "Medium"
+          },
+          {
+            "value": "h0",
+            "label": "Large"
+          }
+        ],
+        "default": "h1",
+        "label": "Heading size"
+      },
+	{
+      "type": "textarea",
+      "id": "text",
+      "default": "Follow the most popular trends and get exclusive items from Foesta shop.",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Desktop heading alignment"
+    },
+    {
+      "type": "select",
+      "id": "mobile_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Mobile heading alignment"
+    },
+    {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "default": "scheme-11",
+        "label": "t:sections.header.settings.color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "t:sections.featured-blog.settings.blog.label"
+    },
+	{
+      "type": "range",
+      "id": "post_limit",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.featured-blog.settings.post_limit.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "t:sections.featured-blog.settings.show_image.label",
+      "info": "t:sections.featured-blog.settings.show_image.info"
+    },
+	{
+        "type": "select",
+        "id": "image_ratio",
+        "options": [
+          {
+            "value": "adapt",
+            "label": "Adap to image"
+          },
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          }
+        ],
+        "default": "medium",
+        "label": "Image height",
+		"info": "It will work with card-style Grid"
+    },
+    {
+      "type":"checkbox",
+      "id": "show_round_corner",
+      "default": true,
+      "label": "Round the corners of the image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "default": true,
+      "label": "Show title"
+    },
+	{
+      "type": "checkbox",
+      "id": "show_content",
+      "default": false,
+      "label": "Show content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "t:sections.featured-blog.settings.show_date.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "t:sections.featured-blog.settings.show_author.label"
+    },
+	{
+      "type": "checkbox",
+      "id": "show_comment",
+      "default": false,
+      "label": "Show comment"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "paragraph",
+      "content": "Read more button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Read More",
+      "label": "t:sections.slideshow.blocks.slide.settings.button_label.label"
+    },
+    {
+      "type": "select",
+      "id": "button_type",
+      "label": "Button type",
+      "default": "solid",
+      "options": [
+          {
+            "value": "solid",
+            "label": "Solid"
+          },
+          {
+            "value": "outline",
+            "label": "Outline"
+          }
+        ]
+      },
+    {
+      "type": "select",
+      "id": "button_size",
+      "label": "Button size",
+      "default": "small",
+      "options": [
+          {
+            "value": "large",
+            "label": "Large"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+             {
+            "value": "small",
+            "label": "Small"
+          }
+        ]
+      },
+    {
+      "type": "paragraph",
+      "content": "View all button"
+    },
+    {
+      "type": "text",
+      "id": "view_all",
+      "default": "View All",
+      "label": "t:sections.slideshow.blocks.slide.settings.button_label.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": false,
+      "label": "t:sections.featured-blog.settings.show_view_all.label"
+    },
+    {
+      "type": "select",
+      "id": "view_button_type",
+      "label": "Button type",
+      "default": "solid",
+      "options": [
+          {
+            "value": "solid",
+            "label": "Solid"
+          },
+          {
+            "value": "outline",
+            "label": "Outline"
+          }
+        ]
+      },
+    {
+      "type": "select",
+      "id": "view_button_size",
+      "label": "Button size",
+      "default": "medium",
+      "options": [
+          {
+            "value": "large",
+            "label": "Large"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+             {
+            "value": "small",
+            "label": "Small"
+          }
+        ]
+      },
+      {
+          "type": "color_scheme",
+          "id": "color_scheme_card",
+          "default": "scheme-12",
+          "label": "t:sections.header.settings.color_scheme.label"
+      },
+	  {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+          "type": "paragraph",
+          "content": "Desktop"
+        },
+        {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "unit": "px",
+          "label": "Padding top",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "unit": "px",
+          "label": "Padding bottom",
+          "default": 50
+        },
+		{
+          "type": "paragraph",
+          "content": "Mobile"
+        },
+		{
+          "type": "range",
+          "id": "mobile_padding_top",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "unit": "px",
+          "label": "Padding top",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "mobile_padding_bottom",
+          "min": 0,
+          "max": 150,
+          "step": 5,
+          "unit": "px",
+          "label": "Padding bottom",
+          "default": 50
+        }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "blog": "News"
+      }
+    }
+  ]
+}
+{% endschema %}

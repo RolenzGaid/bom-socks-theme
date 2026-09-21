@@ -1,0 +1,338 @@
+{% comment %}
+  {%- if section.settings.promo_enable -%}
+  {{ 'category-banner.css' | asset_url | stylesheet_tag }}
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      margin-top: {{ section.settings.mobile_padding_top }}px;
+      margin-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        margin-top: {{ section.settings.padding_top }}px;
+        margin-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+  {%- endstyle -%}
+
+    <div class="category__banner section-{{ section.id }}-padding" data-section-id="{{ section.id }}" data-section-type="category__banner">
+      <div class="container">
+        <div {{ block.shopify_attributes }} class="row row-cols-lg-{{ section.settings.columns_desktop }} row-cols-md-{{ section.settings.columns_desktop }} row-cols-sm-{{ section.settings.columns_mobile }} row-cols-{{ section.settings.columns_mobile }} multicolumn-list contains-content-container">
+
+          {%- for block in section.blocks -%}
+          {%- case block.type -%}
+          {%- when 'category_banner' -%}
+
+                <style>
+                  #block-{{ block.id }}.promotion__grid--banner {
+                    --color-foreground: {{ block.settings.text_color.red }}, {{ block.settings.text_color.green }}, {{ block.settings.text_color.blue }};
+                  }
+                </style>
+
+
+
+                  <!--======= single category =======-->
+                  <div id="category__banner--{{ section.id }}-{{ forloop.index }}" class="category__banner--area" style="" {{ block.shopify_attributes }} >
+                    <div id="block-{{ block.id }}" class="category__banner--single">
+                      <div class="category__banner--single-1  category__banner--single  text-{{ block.settings.content_align }} ">
+                         <!--======= single category image =======-->
+                         <div class="category__banner--single-category--image" class="category__banner---single  ">
+                            <a class="img_rel" href="{{ block.settings.bnr_link_1 }}">
+
+                              <div class="promotion__media promotion__media--{{ block.settings.height }} {% if block.settings.image == blank %}placeholder{% endif %} media"
+                                  {% if block.settings.height == 'adapt' and block.settings.image != blank %}   style="padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;"{% endif %}
+                                >
+                                  {%- if block.settings.image != blank -%}
+                                    <img
+                                      srcset="{%- if block.settings.image.width >= 375 -%}{{ block.settings.image | img_url: '375x' }} 375w,{%- endif -%}
+                                     {%- if settings.settings.image.width >= 550 -%}{{ settings.settings.image | img_url: '550x' }} 550w,{%- endif -%}
+                                     {%- if block.settings.image.width >= 750 -%}{{ block.settings.image | img_url: '750x' }} 750w,{%- endif -%}
+                                     {%- if block.settings.image.width >= 1100 -%}{{ block.settings.image | img_url: '1100x' }} 1100w,{%- endif -%}
+                                     {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | img_url: '1500x' }} 1500w,{%- endif -%}
+                                     {%- if block.settings.image.width >= 1780 -%}{{ block.settings.image | img_url: '1780x' }} 1780w,{%- endif -%}
+                                     {%- if block.settings.image.width >= 2000 -%}{{ block.settings.image | img_url: '2000x' }} 2000w,{%- endif -%}
+                                     {%- if block.settings.image.width >= 3000 -%}{{ block.settings.image | img_url: '3000x' }} 3000w,{%- endif -%}
+                                     {%- if block.settings.image.width >= 3840 -%}{{ block.settings.image | img_url: '3840x' }} 3840w,{%- endif -%}
+                                     {{ block.settings.image | img_url: 'master' }} {{ block.settings.image.width }}w"
+                                      sizes="(min-width: 990px) 100vw, 100vw"
+                                      src="{{ block.settings.image | img_url: '1500x'  }}"
+                                      alt="{{ block.settings.image.alt | escape }}"
+                                      loading="lazy"
+                                      width="{{ block.settings.image.width }}"
+                                      height="{{ block.settings.image.height }}"
+                                    >
+                                  {%- else -%}
+                                    {{ 'collection-2' | placeholder_svg_tag: 'placeholder' }}
+                                  {%- endif -%}
+                              </div>
+                            </a>
+                         </div>
+                         <div class="single-category__content single-category__content--three mt-25 mb-25">
+                            <div class="title">
+                              {% if block.settings.image_text_1 != blank %}
+                                 <p class="h2">{{ block.settings.image_text_1  }}</p>
+                              {% endif %}
+                              {% if block.settings.image_text_2_2 != blank %}
+                               <a class="h3" href="{{ block.settings.bnr_link_1 }}">{{ block.settings.image_text_2_2 }}</a>
+                              {% endif %}
+                            </div>
+                         </div>
+                      </div>
+                      <div class="category__banner--single-2 category__banner--single text-{{ block.settings.content_align2 }}">
+                         <!--======= single category image =======-->
+                         <div class="category__banner--single-category--image" class="category__banner---single">
+                            <a class="img_rel" href="/collections/all">
+                              <div class="promotion__media promotion__media--{{ block.settings.height }} {% if block.settings.image2 == blank %}placeholder{% endif %} media"
+                                  {% if block.settings.height == 'adapt' and block.settings.image2 != blank %}   style="padding-bottom: {{ 1 | divided_by: block.settings.image2.aspect_ratio | times: 100 }}%;"{% endif %}
+                                >
+                                  {%- if block.settings.image2 != blank -%}
+                                    <img
+                                      srcset="{%- if block.settings.image2.width >= 375 -%}{{ block.settings.image2 | img_url: '375x' }} 375w,{%- endif -%}
+                                     {%- if settings.settings.image2.width >= 550 -%}{{ settings.settings.image2 | img_url: '550x' }} 550w,{%- endif -%}
+                                     {%- if block.settings.image2.width >= 750 -%}{{ block.settings.image2 | img_url: '750x' }} 750w,{%- endif -%}
+                                     {%- if block.settings.image2.width >= 1100 -%}{{ block.settings.image2 | img_url: '1100x' }} 1100w,{%- endif -%}
+                                     {%- if block.settings.image2.width >= 1500 -%}{{ block.settings.image2 | img_url: '1500x' }} 1500w,{%- endif -%}
+                                     {%- if block.settings.image2.width >= 1780 -%}{{ block.settings.image2 | img_url: '1780x' }} 1780w,{%- endif -%}
+                                     {%- if block.settings.image2.width >= 2000 -%}{{ block.settings.image2 | img_url: '2000x' }} 2000w,{%- endif -%}
+                                     {%- if block.settings.image2.width >= 3000 -%}{{ block.settings.image2 | img_url: '3000x' }} 3000w,{%- endif -%}
+                                     {%- if block.settings.image2.width >= 3840 -%}{{ block.settings.image2 | img_url: '3840x' }} 3840w,{%- endif -%}
+                                     {{ block.settings.image2 | img_url: 'master' }} {{ block.settings.image2.width }}w"
+                                      sizes="(min-width: 990px) 100vw, 100vw"
+                                      src="{{ block.settings.image2 | img_url: '1500x'  }}"
+                                      alt="{{ block.settings.image2.alt | escape }}"
+                                      loading="lazy"
+                                      width="{{ block.settings.image2.width }}"
+                                      height="{{ block.settings.image2.height }}"
+                                    >
+                                  {%- else -%}
+                                    {{ 'collection-2' | placeholder_svg_tag: 'placeholder' }}
+                                  {%- endif -%}
+                            </div>
+                            </a>
+                         </div>
+                         <div class="single-category__content single-category__content--three mt-25 mb-25">
+                            <div class="title">
+                              {% if block.settings.image_text_2 != blank %}
+                                 <p class="h2">{{ block.settings.image_text_2  }}</p>
+                              {% endif %}
+                              {% if block.settings.image_text_2_3 != blank %}
+                               <a class="h3" href="{{ block.settings.bnr_link_2 }}">{{ block.settings.image_text_2_3 }}</a>
+                              {% endif %}
+                            </div>
+                         </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!--======= End of single category =======-->
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+
+  <style>
+
+  </style>
+  {%- endif -%}
+
+
+  {% schema %}
+  {
+    "name": "Category banner",
+    "class": "section",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "promo_enable",
+        "label": "Show promotion grid",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "columns_desktop",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 3,
+        "label": "t:sections.multicolumn.settings.columns_desktop.label"
+      },
+      {
+        "type": "header",
+        "content": "Section padding"
+      },
+      {
+        "type": "paragraph",
+        "content": "Desktop"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 50
+      },
+      {
+        "type": "paragraph",
+        "content": "Mobile"
+      },
+      {
+        "type": "range",
+        "id": "mobile_padding_top",
+        "min": 0,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "mobile_padding_bottom",
+        "min": 0,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 50
+      }
+    ],
+    "blocks": [
+      {
+        "type": "category_banner",
+        "name": "Category banner",
+        "settings": [
+            {
+              "type": "header",
+              "content": "Image settings"
+            },
+            {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image"
+            },
+            {
+              "type": "select",
+              "id": "height",
+              "options": [
+                {
+                  "value": "adapt",
+                  "label": "t:sections.image-with-text.settings.height.options__1.label"
+                },
+                {
+                  "value": "small",
+                  "label": "t:sections.image-with-text.settings.height.options__2.label"
+                },
+                {
+                  "value": "large",
+                  "label": "t:sections.image-with-text.settings.height.options__3.label"
+                }
+              ],
+              "default": "adapt",
+              "label": "t:sections.image-with-text.settings.height.label"
+            },
+            {
+              "type": "textarea",
+              "id": "image_text_1",
+              "label": "Heading #1",
+              "default": "Heading"
+            },
+            {
+              "type": "textarea",
+              "id": "image_text_2_2",
+              "label": "Subheading #1",
+              "default": "Sub text"
+            },
+            {
+              "type": "url",
+              "id": "bnr_link_1",
+              "label": "Banner link"
+            },
+            {
+              "type": "select",
+              "id": "content_align",
+              "options": [
+                {
+                  "value": "left",
+                  "label": "Left"
+                },
+                {
+                  "value": "right",
+                  "label": "Right"
+                }
+              ],
+              "default": "left",
+              "label": "Content alignment"
+            },
+            {
+              "type": "header",
+              "content": "Image settings #2"
+            },
+            {
+              "type": "image_picker",
+              "id": "image2",
+              "label": "Image two"
+            },
+            {
+              "type": "textarea",
+              "id": "image_text_2",
+              "label": "Heading #2",
+              "default": "Heading"
+            },
+            {
+              "type": "textarea",
+              "id": "image_text_2_3",
+              "label": "Subheading #2",
+              "default": "Sub text"
+            },
+            {
+              "type": "url",
+              "id": "bnr_link_2",
+              "label": "Banner link"
+            },
+            {
+              "type": "select",
+              "id": "content_align2",
+              "options": [
+                {
+                  "value": "left",
+                  "label": "Left"
+                },
+                {
+                  "value": "right",
+                  "label": "Right"
+                }
+              ],
+              "default": "left",
+              "label": "Content alignment"
+            }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Category banner",
+        "blocks": [
+          {
+            "type": "category_banner"
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+{% endcomment %}

@@ -1,0 +1,17 @@
+@media screen and (min-width: 750px) {
+    .facets-vertical .facets-wrapper {
+        padding-right: 0rem;
+        padding-left: 3rem;
+    }
+}
+span.checkbox-facet-check{
+  margin-right: 0;
+  margin-left: 1rem;
+}
+@media screen and (min-width: 750px) {
+    .facets__disclosure-vertical[open] .facets__summary .icon-caret {
+        transform: rotate(180deg);
+        right:  auto;
+        left: 1.5rem;
+    }
+}

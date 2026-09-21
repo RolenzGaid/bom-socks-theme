@@ -1,0 +1,15 @@
+.accordion .icon-accordion{
+  margin-right: 0px;
+  margin-left: 1rem;
+}
+button.product-popup-modal__button.link>svg{
+  margin-right:0;
+  margin-left: 1rem;
+}
+.sticky__proudct_title{
+  padding-left: 0;
+  padding-right: 15px;
+}
+.product-form__buttons.sticky__form_button .product__add__cart__button{
+  margin-left: 10px;
+}

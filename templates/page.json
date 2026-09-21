@@ -1,0 +1,127 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "page_banner_cTEFwh": {
+      "type": "page-banner",
+      "name": "Page banner",
+      "settings": {
+        "heading": "{{ page.title }}",
+        "heading_tag": "h2",
+        "subtitle": "<p>{{ page.metafields.custom.page_subtitle | metafield_tag }}</p>",
+        "content_image": "{{ page.metafields.custom.page_banner_logo.value }}",
+        "content_image_alt": "",
+        "accessibility_label": "",
+        "background_color": "#000000",
+        "background_image": "{{ page.metafields.custom.page_banner_background.value }}",
+        "background_fit": "cover",
+        "background_position": "center center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 35,
+        "heading_color": "#ffffff",
+        "last_word_color": "#ffc400",
+        "subtitle_color": "#ffffff",
+        "heading_size_desktop": 70,
+        "heading_size_mobile": 42,
+        "heading_weight": 800,
+        "heading_line_height": 100,
+        "heading_letter_spacing": 0,
+        "subtitle_size_desktop": 20,
+        "subtitle_size_mobile": 17,
+        "subtitle_line_height": 140,
+        "text_alignment": "center",
+        "show_divider": true,
+        "divider_color": "#ffc400",
+        "divider_width": 500,
+        "divider_thickness": 3,
+        "divider_gap_top": 22,
+        "divider_gap_bottom": 34,
+        "min_height_desktop": 500,
+        "min_height_mobile": 320,
+        "padding_desktop": 64,
+        "padding_mobile": 48,
+        "content_width": 900,
+        "content_image_width_desktop": 900,
+        "content_image_width_mobile": 360
+      }
+    },
+    "breadcrumbs": {
+      "type": "breadcrumbs",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "background-3",
+        "show_page_title": true,
+        "show_breadcrumb_navigation": true,
+        "text_center": "center",
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "mobile_padding_top": 50,
+        "mobile_padding_bottom": 50
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "heading": true,
+        "color_scheme": "background-1",
+        "padding_top": 40,
+        "padding_bottom": 35,
+        "mobile_padding_top": 0,
+        "mobile_padding_bottom": 0
+      }
+    },
+    "1650435232c200ddec": {
+      "type": "newsletter",
+      "blocks": {
+        "165043523272054595-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe to learn about our latest news, update and promotions.",
+            "heading_size": "h1"
+          }
+        },
+        "165043523272054595-1": {
+          "type": "email_form",
+          "settings": {}
+        },
+        "f9e1c39a-d934-4476-8cfc-cc82c858fe4d": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Be the first to know about new collections and exclusive offers.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "165043523272054595-0",
+        "165043523272054595-1",
+        "f9e1c39a-d934-4476-8cfc-cc82c858fe4d"
+      ],
+      "settings": {
+        "color_scheme": "background-2",
+        "height": "small",
+        "image_overlay_opacity": 0,
+        "form_position": "right",
+        "content_wrapper_width": "full",
+        "content_alignment": "center",
+        "show_devider": true,
+        "padding_top": 80,
+        "padding_bottom": 0,
+        "mobile_padding_top": 60,
+        "mobile_padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "page_banner_cTEFwh",
+    "breadcrumbs",
+    "main",
+    "1650435232c200ddec"
+  ]
+}

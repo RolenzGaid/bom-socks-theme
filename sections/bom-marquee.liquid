@@ -1,0 +1,186 @@
+{%- style -%}
+  .marquee-{{ section.id }} {
+    --bg-color: {{ section.settings.background_color }};
+    --text-color: {{ section.settings.text_color }};
+    --animation-speed: {{ section.settings.animation_speed }}s;
+    --padding-top: {{ section.settings.padding_top }}px;
+    --padding-bottom: {{ section.settings.padding_bottom }}px;
+    
+    /* Responsive font scaling */
+    --font-size: clamp(14px, 1.5vw, 18px); 
+
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  .marquee-track-{{ section.id }} {
+    display: flex;
+    flex-shrink: 0;
+    /* CSS-only infinite scroll */
+    animation: marquee-scroll var(--animation-speed) linear infinite;
+  }
+
+  /* Optional: Pause animation on hover for better UX */
+  .marquee-{{ section.id }}:hover .marquee-track-{{ section.id }} {
+    animation-play-state: paused;
+  }
+
+  .marquee-item-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .marquee-dot-{{ section.id }} {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--text-color);
+    opacity: 0.4; /* Mutes the dot color to match your screenshot */
+    margin: 0 2rem;
+  }
+
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+  }
+
+  /* Accessibility respect for users who prefer reduced motion */
+  @media screen and (prefers-reduced-motion: reduce) {
+    .marquee-track-{{ section.id }} {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      min-width: auto;
+    }
+    .marquee-{{ section.id }} {
+      display: block;
+      text-align: center;
+    }
+  }
+{%- endstyle -%}
+
+<div class="marquee-{{ section.id }}" role="region" aria-label="Announcement marquee">
+  {%- capture marquee_content -%}
+    {%- for block in section.blocks -%}
+      <span class="marquee-item-{{ section.id }}" {{ block.shopify_attributes }}>
+        {{ block.settings.text }}
+        <span class="marquee-dot-{{ section.id }}" aria-hidden="true"></span>
+      </span>
+    {%- else -%}
+      <!-- Fallback if no blocks are added -->
+      <span class="marquee-item-{{ section.id }}">
+        ADD TEXT BLOCK <span class="marquee-dot-{{ section.id }}" aria-hidden="true"></span>
+      </span>
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  <!-- Primary Track -->
+  <div class="marquee-track-{{ section.id }}">
+    {{ marquee_content }}
+  </div>
+  
+  <!-- Duplicated Tracks for seamless loop on ultra-wide screens -->
+  <div class="marquee-track-{{ section.id }}" aria-hidden="true">
+    {{ marquee_content }}
+  </div>
+  <div class="marquee-track-{{ section.id }}" aria-hidden="true">
+    {{ marquee_content }}
+  </div>
+  <div class="marquee-track-{{ section.id }}" aria-hidden="true">
+    {{ marquee_content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Marquee Banner",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#EAB308"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "animation_speed",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "s",
+      "label": "Animation Speed",
+      "default": 20,
+      "info": "Higher number means slower speed."
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Marquee Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Your Announcement Here"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee Banner",
+      "blocks": [
+        { "type": "text", "settings": { "text": "ONE STEP AT A TIME" } },
+        { "type": "text", "settings": { "text": "BOOK OF MORMON" } },
+        { "type": "text", "settings": { "text": "WEAR YOUR FAITH" } },
+        { "type": "text", "settings": { "text": "LDS MERch" } },
+        { "type": "text", "settings": { "text": "COVENANT MADE" } },
+        { "type": "text", "settings": { "text": "GOSPEL LIVING" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

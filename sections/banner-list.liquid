@@ -1,0 +1,791 @@
+{{ 'component-grid.css' | asset_url | stylesheet_tag }}
+{{ 'component-collage.css' | asset_url | stylesheet_tag }}
+{{ 'component-mosaic.css' | asset_url | stylesheet_tag }}
+{{ 'banner-list.css' | asset_url | stylesheet_tag }}
+{{ 'component-mobile-scrolling.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign product_show_sm = section.settings.products_show_on_sm
+
+  assign grid = 'grid'
+  if section.settings.layout == 'mosaic'
+    assign grid = 'collage'
+    assign collage_column = 'collage_column_1'
+    if section.blocks.size == 6
+      assign collage_column = 'collage_column_6'
+    elsif section.blocks.size == 5
+      assign collage_column = 'collage_column_5'
+    elsif section.blocks.size == 4
+      assign collage_column = 'collage_column_4'
+    elsif section.blocks.size == 3
+      assign collage_column = 'collage_column_3'
+    elsif section.blocks.size == 2
+      assign collage_column = 'collage_column_2'
+    elsif section.blocks.size > 6
+      assign collage_column = 'collage_column_many'
+    endif
+  elsif section.settings.layout == 'collage'
+    assign grid = 'grid-collage'
+  endif
+
+  assign grid_item = ''
+  if section.settings.layout == 'grid'
+    assign grid_item = 'grid__item'
+  elsif section.settings.layout == 'mosaic'
+    assign grid_item = 'collage__item'
+  endif
+  assign container = section.settings.container
+  if container == 'w-full'
+    assign container = 'container-fluid'
+  endif
+
+  if section.settings.products_show_on_xl == '2'
+    assign laptop_desktop = 'grid-2-col-laptop grid-2-col-desktop grid-2-col-tablet'
+  elsif section.settings.products_show_on_xl == '3'
+    assign laptop_desktop = 'grid-3-col-laptop grid-2-col-desktop grid-2-col-tablet'
+  elsif section.settings.products_show_on_xl == '4'
+    assign laptop_desktop = 'grid-4-col-laptop grid-3-col-desktop grid-2-col-tablet'
+  endif
+%}
+
+{%- style -%}
+   .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+       --padding-top: {{ section.settings.mobile_padding_top }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      --padding-top: {{ section.settings.padding_top }}px;
+    }
+  }
+  #MainContent > :first-child .section--top-space-{{ section.id }} {
+    padding-top: calc(var(--header-height) * var(--transparent-header-show) + var(--padding-top));
+  }
+
+  {%- if section.settings.image_ratio == 'adapt' and section.blocks.first.settings.image != blank and section.settings.layout != 'mosaic' and section.settings.layout != 'collage' -%}
+   .banner__list--{{ section.id }} .banner__list--media {
+     padding-bottom: {{ 1 | divided_by: section.blocks.first.settings.image.aspect_ratio | times: 100 }}%;
+   }
+  {% endif %}
+
+  :root {
+    --grid-desktop-vertical-spacing: 20px;
+    --grid-desktop-horizontal-spacing: 20px;
+    --grid-mobile-vertical-spacing: 20px;
+    --grid-mobile-horizontal-spacing: 20px;
+  }
+{%- endstyle -%}
+
+{% comment %}
+  {%- capture container_class -%}
+      {{ grid }} {{ collage_column }} {% if section.settings.layout == "grid" %} grid--{{ product_show_xl }}-col-desktop grid--{{ productShowSm }}-col-tablet-down {% endif %}
+  {%- endcapture -%}
+{% endcomment %}
+
+{%- capture container_class -%}
+    {{ grid }} {{ collage_column }} {% if section.settings.layout == "grid" %} {{ laptop_desktop }} grid-{{ product_show_sm }}-col-small-down {% endif %}
+{%- endcapture -%}
+
+<div
+  class="banner__list section--top-space-{{ section.id }} banner__list--{{ section.id }} section-{{ section.id }}-padding color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="{{ container }}">
+    {% if section.settings.heading != blank or section.settings.subtitle != blank %}
+      <div class="section-heading text-{{ section.settings.alignment }} mobile-text-{{ section.settings.mobile_alignment }} mb-50">
+        <h2 class="section-heading__title {{ section.settings.heading_size }} rte">
+          {{- section.settings.heading -}}
+        </h2>
+        <span class="section-heading__sub_title">{{- section.settings.subtitle -}}</span>
+      </div>
+    {% endif %}
+
+    <div class="{{ container_class }}">
+      {%- for block in section.blocks -%}
+        {% case block.type %}
+          {% when 'banner' %}
+            {% comment %} Banner item {% endcomment %}
+            {% liquid
+              case block.settings.button_type
+                when 'solid'
+                  assign button_class = 'solid'
+                when 'outline'
+                  assign button_class = 'outline'
+                else
+                  assign button_class = 'plain_link'
+              endcase
+
+              assign highest_ratio = 0
+              for block in section.blocks
+                if block.settings.image.aspect_ratio > highest_ratio
+                  assign highest_ratio = block.settings.image.aspect_ratio
+                endif
+              endfor
+
+              assign content_position = ''
+              if block.settings.split_content == false
+                if block.settings.content_position == 'middle' and block.settings.content_alignment == 'center'
+                  assign content_position = 'justify-content-center align-items-center'
+                elsif block.settings.content_position == 'top' and block.settings.content_alignment == 'center'
+                  assign content_position = 'justify-content-start align-items-center'
+                elsif block.settings.content_position == 'bottom' and block.settings.content_alignment == 'center'
+                  assign content_position = 'justify-content-end align-items-center'
+                elsif block.settings.content_position == 'middle'
+                  assign content_position = 'justify-content-center'
+                elsif block.settings.content_position == 'bottom'
+                  assign content_position = 'justify-content-end'
+                endif
+              endif
+
+              assign content_alignment = ''
+              if block.settings.split_content == false
+                if block.settings.content_alignment == 'center'
+                  assign content_alignment = 'justify-content-center text-center align-items-center'
+                elsif block.settings.content_alignment == 'right'
+                  assign content_alignment = 'justify-content-end'
+                endif
+              else
+                if block.settings.content_alignment == 'center'
+                  assign content_position = 'justify-content-between text-center align-items-center'
+                  assign content_alignment = 'justify-content-center'
+                elsif block.settings.content_alignment == 'left'
+                  assign content_position = 'justify-content-between'
+                  assign content_alignment = 'justify-content-start'
+                elsif block.settings.content_alignment == 'right'
+                  assign content_position = 'justify-content-between text-right align-items-end'
+                  assign content_alignment = 'justify-content-end'
+                endif
+              endif
+            %}
+            <div
+              class="banner__list--item {{ grid_item }} color-{{ section.settings.card_color_scheme }}"
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.enble_entire_link and block.settings.link != blank -%}
+                <a class="d-block" href="{{ block.settings.link }}">
+              {% endif %}
+              <div
+                class="banner__list--item-overlay {% if section.settings.round_corner and section.settings.show_content_below_image == false %} rounded--image {% endif %}"
+                style="--banner-list-media-overlay-opacity: {{ block.settings.image_overlay_opacity | divided_by: 100.0 }};"
+              >
+                <div
+                  class="
+                    banner__list--media
+                    {%- if section.settings.layout == 'grid' %}
+                      media--{{ section.settings.image_ratio }}
+                    {% endif %}
+
+                    {%- if block.settings.image != blank -%}
+                      media--transparent media
+                    {%- elsif section.settings.layout == 'collage' -%}
+                      collage-placeholder
+                    {% else %}
+                      placeholder_svg_parent placeholder
+                    {% endif %}
+
+                    {% if section.settings.round_corner and section.settings.show_content_below_image %}
+                      rounded--image
+                    {% endif %}
+                  "
+                >
+                  {%- if block.settings.image != blank -%}
+                    {% if section.settings.layout == 'mosaic' %}
+                      {%- capture sizes -%}(min-width: 992px) {{ settings.container_lg_width }}px, (min-width: 750px) 800px, calc(100vw - 30px){%- endcapture -%}
+                    {% else %}
+                      {%- capture sizes -%}(min-width: 992px) {% if section.blocks.size <= 2 %} {{ settings.container_lg_width }}px{% else %}{{ settings.container_lg_width | minus: 60 | divided_by: 3 }}px{% endif %}, (min-width: 750px) {% if section.blocks.size == 1 %}calc(100vw - 60px){% else %}550px{% endif %}, calc(100vw - 30px){%- endcapture -%}
+                    {% endif %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 2200
+                      | image_tag: loading: 'lazy', sizes: sizes, widths: '275, 550, 710, 1200, 1420, 2200'
+                    }}
+                  {%- else -%}
+                    {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- endif -%}
+                </div>
+                <div
+                  class="banner__list--item-content banner__list--content-position--{{ block.settings.card_padding }} d-flex {{ content_alignment }} {% if section.settings.show_content_below_image and section.settings.layout != 'collage' %} show__content--image-below {% endif %}"
+                  style="
+                    --color-button: {{ block.settings.button_background.red }}, {{ block.settings.button_background.green }}, {{ block.settings.button_background.blue }};
+                    --color-button-text: {{ block.settings.button_foreground.red }}, {{ block.settings.button_foreground.green }}, {{ block.settings.button_foreground.blue }};
+                    --color-base-outline-button-labels: {{ block.settings.foreground.red }}, {{ block.settings.foreground.blue }}, {{ block.settings.foreground.blue }};
+                    --color-link: {{ block.settings.foreground.red }}, {{ block.settings.foreground.blue }}, {{ block.settings.foreground.blue }};
+                  "
+                >
+                  <div class="banner__list--item-content-inner {{ content_position }}">
+                    <div>
+                      {%- if block.settings.text != blank -%}
+                        <div class="rte banner--list-text">{{ block.settings.text }}</div>
+                      {%- endif -%}
+                      {%- if block.settings.title != blank -%}
+                        <h3 class="{{ block.settings.heading_size }} banner__heading__title {% if block.settings.text != blank %}banner__heading--space {% else %}mb-0 {% endif %}">
+                          {{ block.settings.title | replace: 'p>', 'span>' }}
+                        </h3>
+                      {%- endif -%}
+                      {%- if block.settings.text_description -%}
+                        <p class="{{ block.settings.text_size }} banner__description">
+                          {{ block.settings.text_description }}
+                        </p>
+                      {%- endif -%}
+                    </div>
+                    {%- if block.settings.link_label != blank -%}
+                      {% unless block.settings.enble_entire_link %}
+                        <a
+                          class="button button--{{ button_class }} button--{{ block.settings.button_size }}"
+                          style="border-radius:{{ block.settings.button_round }}px"
+                          {% if block.settings.link == blank %}
+                            role="link" aria-disabled="true"
+                          {% else %}
+                            href="{{ block.settings.link }}"
+                          {% endif %}
+                        >
+                      {% endunless %}
+                      {% if block.settings.enble_entire_link %}
+                        {% comment %}
+                          <button
+                            class="{{ button_class }} {% unless block.settings.button_type == "icon" %} button--{{ block.settings.button_size }} {% endunless %} {% if block.settings.button_type == "icon" %} link-button--{{ block.settings.link_button_size }} {% endif %}"
+                          >
+                        {% endcomment %}
+                        <button
+                          class="button button--{{ block.settings.button_size }} button--{{ block.settings.button_type }} common-button"
+                          style="border-radius:{{ block.settings.button_round }}px"
+                        >
+                      {%- endif %}
+                      {{- block.settings.link_label | escape }}
+                      {% if block.settings.button_icon and block.settings.button_type == 'plain_link' %}
+                        {% render 'icon-arrow' %}
+                      {% endif %}
+                      {% if block.settings.enble_entire_link %} </button> {% endif %}
+                      {% unless block.settings.enble_entire_link %}
+                        </a>
+                      {% endunless %}
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+              {%- if block.settings.enble_entire_link and block.settings.link != blank -%}
+                </a>
+              {% endif %}
+            </div>
+            {% comment %} Banner item {% endcomment %}
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Banner list",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+        "type": "text",
+        "id": "heading",
+        "label": "t:sections.featured-collection.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+          {
+            "value": "h0",
+            "label": "Large"
+          },
+          {
+            "value": "h1",
+            "label": "Medium"
+          },
+          {
+            "value": "h2",
+            "label": "Small"
+          }
+       ],
+       "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "label": "Desktop heading alignment"
+    },
+    {
+      "type": "select",
+      "id": "mobile_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Mobile heading alignment"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Container",
+      "default": "container",
+      "options": [
+        {
+          "value": "container",
+          "label": "Default"
+        },
+        {
+          "value": "w-full",
+          "label": "Full width"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "collage",
+          "label": "Collage"
+        },
+        {
+          "value": "mosaic",
+          "label": "Mosaic"
+        }
+      ],
+      "default": "grid",
+      "label": "Layout"
+    },
+    {
+        "type": "select",
+        "id": "products_show_on_xl",
+        "label": "Number of columns on desktop",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ],
+        "default": "2",
+       "info": "This is only applicable to the grid layout."
+    },
+    {
+        "type": "select",
+        "id": "products_show_on_sm",
+        "label": "Number of columns on mobile",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          }
+        ],
+        "default": "2",
+       "info": "This is only applicable to the grid layout."
+      },
+    {
+      "type": "header",
+      "content": "Banner card"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to first image"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__3.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        },
+        {
+          "value": "circle",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__4.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.multicolumn.settings.image_ratio.label",
+      "info": "This is only applicable to the grid layout."
+    },
+    {
+      "type": "checkbox",
+      "id": "round_corner",
+      "label": "Round corner",
+      "default": true
+    },
+    {
+         "type": "checkbox",
+         "id": "show_content_below_image",
+         "label": "Show content below the images",
+         "default": false,
+         "info": "This is only applicable to the grid and mosaic layout."
+     },
+    {
+        "type": "color_scheme",
+        "id": "card_color_scheme",
+        "default": "scheme-2",
+        "label": "Color label"
+    },
+    {
+      "type": "header",
+      "content": "Section color"
+    },
+    {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "default": "scheme-11",
+        "label": "Color label"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+        "type": "paragraph",
+        "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 50
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 50
+    }
+  ],
+   "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.multicolumn.blocks.column.settings.image.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "split_content",
+          "label": "Split content",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "options": [
+            {
+              "value": "top",
+              "label": "t:sections.image-with-text.settings.desktop_content_position.options__1.label"
+            },
+            {
+              "value": "middle",
+              "label": "t:sections.image-with-text.settings.desktop_content_position.options__2.label"
+            },
+            {
+              "value": "bottom",
+              "label": "t:sections.image-with-text.settings.desktop_content_position.options__3.label"
+            }
+          ],
+          "default": "bottom",
+          "label": "Content position",
+          "info": "It works unless you enable the \"Show content below the image\""
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__1.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__2.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__3.label"
+            }
+          ],
+          "default": "left",
+          "label": "Content alignment"
+        },
+        {
+          "type": "richtext",
+          "id": "title",
+          "default": "<p>Banner title</p>",
+          "label": "t:sections.multicolumn.blocks.column.settings.title.label"
+        },
+        {
+         "type": "select",
+         "id": "heading_size",
+         "options": [
+           {
+             "value": "h4",
+             "label": "Small"
+           },
+           {
+             "value": "h3",
+             "label": "Medium"
+           },
+           {
+             "value": "h2",
+             "label": "Large"
+           }
+         ],
+         "default": "h3",
+         "label": "Heading size"
+       },
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Pair text with an icon to focus on your store's features",
+          "label": "Subheading"
+        },
+        {
+          "type": "textarea",
+          "id": "text_description",
+          "label": "t:sections.multicolumn.blocks.column.settings.text.label"
+        },
+        {
+         "type": "select",
+         "id": "text_size",
+         "options": [
+           {
+             "value": "sm",
+             "label": "Small"
+           },
+           {
+             "value": "md",
+             "label": "Medium"
+           }
+         ],
+         "default": "sm",
+         "label": "Text size"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "t:sections.multicolumn.blocks.column.settings.link_label.label",
+          "default": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.multicolumn.blocks.column.settings.link.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "enble_entire_link",
+          "label": "Enable the link on the entire banner",
+          "default": false
+        },
+		{
+          "type": "select",
+          "id": "button_type",
+          "label": "Button type",
+          "default": "solid",
+          "options": [
+            {
+              "value": "solid",
+              "label": "Solid"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "plain_link",
+              "label": "Link"
+            }
+          ]
+        },
+		{
+          "type": "select",
+          "id": "button_size",
+          "label": "Button size",
+          "default": "small",
+          "info": "Works on the solid/outline button",
+          "options": [
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "button_round",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "label": "Button Border Radius",
+          "default": 44
+        },
+    	{
+          "type": "checkbox",
+          "id": "button_icon",
+          "label": "Show button icon",
+          "default": false,
+          "info": "This is only applicable to the button type link."
+        },
+		{
+          "type": "select",
+          "id": "card_padding",
+          "label": "Card padding",
+          "default": "small",
+          "options": [
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            }
+          ]
+        },
+        {
+           "type": "range",
+           "id": "image_overlay_opacity",
+           "min": 0,
+           "max": 100,
+           "step": 10,
+           "unit": "%",
+           "label": "Image overlay opacity",
+           "default": 20
+         }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner list",
+      "blocks": [
+        {
+          "type": "banner"
+        },
+        {
+          "type": "banner"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

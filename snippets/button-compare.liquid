@@ -1,0 +1,31 @@
+{%- if product.handle != blank -%}
+  <compare-item>
+    <button
+      class="cart--icon-button button--icon h6 mb-0 compare__button  wishlist__button {{ className }}"
+      type="button"
+      aria-label="Add to compare"
+      data-product-handle="{{ product.handle }}"
+      data-product-title="{{ product.title }}"
+    >
+      <span title="Add To Compare" class="add__wishlist">
+        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+          <script xmlns=""/>
+          <path d="M18.207 16.2913V10.5413C18.207 7.83076 18.207 6.47548 17.3649 5.63341C16.5229 4.79134 15.1676 4.79134 12.457 4.79134H9.58203M9.58203 4.79134C9.58203 4.12029 11.4932 2.86656 11.9779 2.39551M9.58203 4.79134C9.58203 5.4624 11.4932 6.71613 11.9779 7.18717" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.79297 7.1875V12.9375C4.79297 15.6481 4.79297 17.0033 5.63504 17.8454C6.47711 18.6875 7.83239 18.6875 10.543 18.6875H13.418M13.418 18.6875C13.418 19.3585 11.5068 20.6123 11.0221 21.0833M13.418 18.6875C13.418 18.0165 11.5068 16.7627 11.0221 16.2917" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18.2096 20.1253C19.2682 20.1253 20.1263 19.2672 20.1263 18.2087C20.1263 17.1501 19.2682 16.292 18.2096 16.292C17.1511 16.292 16.293 17.1501 16.293 18.2087C16.293 19.2672 17.1511 20.1253 18.2096 20.1253Z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M4.79167 6.70833C5.85021 6.70833 6.70833 5.85021 6.70833 4.79167C6.70833 3.73312 5.85021 2.875 4.79167 2.875C3.73312 2.875 2.875 3.73312 2.875 4.79167C2.875 5.85021 3.73312 6.70833 4.79167 6.70833Z" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </span>
+      <span class="loading__wishlist"></span>
+      <span title="Remove from compare" class="remove__wishlist remove__action__btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
+          <script xmlns=""/>
+          <path d="M18.207 16.2913V10.5413C18.207 7.83076 18.207 6.47548 17.3649 5.63341C16.5229 4.79134 15.1676 4.79134 12.457 4.79134H9.58203M9.58203 4.79134C9.58203 4.12029 11.4932 2.86656 11.9779 2.39551M9.58203 4.79134C9.58203 5.4624 11.4932 6.71613 11.9779 7.18717" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.79297 7.1875V12.9375C4.79297 15.6481 4.79297 17.0033 5.63504 17.8454C6.47711 18.6875 7.83239 18.6875 10.543 18.6875H13.418M13.418 18.6875C13.418 19.3585 11.5068 20.6123 11.0221 21.0833M13.418 18.6875C13.418 18.0165 11.5068 16.7627 11.0221 16.2917" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18.2096 20.1253C19.2682 20.1253 20.1263 19.2672 20.1263 18.2087C20.1263 17.1501 19.2682 16.292 18.2096 16.292C17.1511 16.292 16.293 17.1501 16.293 18.2087C16.293 19.2672 17.1511 20.1253 18.2096 20.1253Z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M4.79167 6.70833C5.85021 6.70833 6.70833 5.85021 6.70833 4.79167C6.70833 3.73312 5.85021 2.875 4.79167 2.875C3.73312 2.875 2.875 3.73312 2.875 4.79167C2.875 5.85021 3.73312 6.70833 4.79167 6.70833Z" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </span>
+    </button>
+  </compare-item>
+{%- endif -%}

@@ -1,0 +1,258 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    background-color: #ffffff;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .mission-container-{{ section.id }} {
+    max-width: var(--page-width, 1200px); /* Fallback to 1200px if variable is missing */
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* --- LEFT COLUMN: TEXT CONTENT --- */
+  .mission-kicker-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: #ebb30b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+  }
+
+  .mission-kicker-{{ section.id }}::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background-color: #e5e5e5;
+  }
+
+  .mission-heading-{{ section.id }} {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    color: #111111;
+    margin: 0 0 1.5rem 0;
+    font-family: var(--font-heading-family, serif);
+  }
+
+  /* Targets the italicized text in the heading to make it yellow */
+  .mission-heading-{{ section.id }} em {
+    color: #ebb30b;
+    font-style: italic;
+  }
+
+  .mission-text-{{ section.id }} {
+    line-height: 1.6;
+    color: #444444;
+  }
+
+  .mission-text-{{ section.id }} p {
+    margin-bottom: 1.5rem;
+  }
+
+  /* --- RIGHT COLUMN: QUOTE BOX --- */
+  .mission-quote-wrapper-{{ section.id }} {
+    position: relative;
+    width: 100%;
+  }
+
+  /* The offset yellow border */
+  .mission-quote-border-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 20px; /* Leaves right side exposed so black box covers it */
+    border: 2px solid #ebb30b;
+    z-index: 1;
+  }
+
+  /* The main black box positioned slightly down and right to create the offset effect */
+  .mission-quote-box-{{ section.id }} {
+    background-color: #0f0f0f;
+    padding: 3rem 4rem 4rem 3rem;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .quote-title-{{ section.id }} {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    color: #ebb30b;
+    margin: 0 0 0.5rem 0;
+    line-height: 1;
+    font-family: var(--font-heading-family, serif);
+  }
+
+  .quote-subtitle-{{ section.id }} {
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin: 0 0 2rem 0;
+  }
+
+  .quote-divider-{{ section.id }} {
+    border: none;
+    border-top: 1px solid #333333;
+    margin: 0 0 2rem 0;
+  }
+
+  .quote-text-{{ section.id }} {
+    color: #ffffff;
+    padding-left: 0;
+    font-style: italic;
+    line-height: 1.5;
+    margin: 0 0 2rem 0;
+    font-family: var(--font-heading-family, serif);
+  }
+
+  .quote-ref-{{ section.id }} {
+    color: #ebb30b;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  /* --- RESPONSIVE DESIGN --- */
+  @media screen and (min-width: 990px) {
+    .mission-container-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 6rem;
+      text-align: center;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .mission-quote-box-{{ section.id }} {
+      padding: 2.5rem 2rem;
+    }
+  }
+{%- endstyle -%}
+
+<section class="section-{{ section.id }}">
+  <div class="mission-container-{{ section.id }}">
+    
+    <div class="mission-content-{{ section.id }}">
+      {%- if section.settings.kicker != blank -%}
+        <div class="mission-kicker-{{ section.id }}">
+          {{ section.settings.kicker }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="mission-heading-{{ section.id }}">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.body_text != blank -%}
+        <div class="mission-text-{{ section.id }}">
+          {{ section.settings.body_text }}
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Mission Split Quote",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left Column: Content"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker Text",
+      "default": "WHY WE MADE THIS"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Socks with <em>a mission.</em>",
+      "info": "Highlight text using the italic button to make it yellow."
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "<p>We create products that carry a message — stylish enough to rock around your friends, meaningful enough to spark a conversation about your faith.</p><p>We take our faith seriously. We don't take ourselves too seriously. Because fun and humor are just as much a part of the gospel as testimony and scripture study.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Right Column: Quote Box"
+    },
+    {
+      "type": "text",
+      "id": "quote_title",
+      "label": "Large Title",
+      "default": "1 Ne."
+    },
+    {
+      "type": "text",
+      "id": "quote_subtitle",
+      "label": "Subtitle",
+      "default": "WHERE IT ALL BEGAN"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote Text",
+      "default": "I will go and do the things which the Lord hath commanded."
+    },
+    {
+      "type": "text",
+      "id": "quote_ref",
+      "label": "Quote Reference",
+      "default": "1 NEPHI 3:7"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mission Split Quote"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,310 @@
+{%- style -%}
+  .hero-{{ section.id }} {
+    position: relative;
+    min-height: {{ section.settings.mobile_height }}px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Aligns content to the bottom on mobile */
+    overflow: hidden;
+  }
+
+  @media screen and (min-width: 768px) {
+    .hero-{{ section.id }} {
+      min-height: {{ section.settings.desktop_height }}px;
+      justify-content: center; /* Aligns content vertically centered on desktop */
+    }
+  }
+
+  /* --- BACKGROUND IMAGES --- */
+  .hero-bg-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #111111;
+  }
+
+  .hero-bg-{{ section.id }} img,
+  .hero-bg-{{ section.id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_position }};
+  }
+
+  .hero-placeholder-{{ section.id }} {
+    fill: #555;
+    background-color: #333;
+  }
+
+  /* Handle Desktop/Mobile Image Swapping */
+  .hero-bg-desktop-{{ section.id }} { display: none; }
+  .hero-bg-mobile-{{ section.id }} { display: block; }
+
+  @media screen and (min-width: 768px) {
+    .hero-bg-desktop-{{ section.id }} { display: block; }
+    .hero-bg-mobile-{{ section.id }} { display: none; }
+  }
+
+  /* --- OVERLAY --- */
+  .hero-overlay-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    /* Mobile: Gradient comes from the bottom up */
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  @media screen and (min-width: 768px) {
+    .hero-overlay-{{ section.id }} {
+      /* Desktop: Gradient goes from left to right */
+      background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+    }
+  }
+
+  /* --- CONTENT CONTAINER --- */
+  .hero-container-{{ section.id }} {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: var(--page-width, 1200px);
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .hero-content-{{ section.id }} {
+    max-width: 550px;
+  }
+
+  @media screen and (max-width: 767px) {
+    .hero-content-{{ section.id }} {
+      text-align: center; /* Centers text horizontally on mobile */
+      margin: 0 auto;
+    }
+  }
+
+  /* --- TYPOGRAPHY & BUTTON --- */
+  .hero-title-{{ section.id }} {
+    color: #ffffff;
+    font-family: var(--font-heading-family, sans-serif);
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1.15;
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  /* Styles the italic tag inside inline_richtext */
+  .hero-title-{{ section.id }} em {
+    color: #ebb30b;
+    font-style: normal; 
+  }
+
+  .hero-text-{{ section.id }} {
+    color: #f4f4f4;
+    line-height: 1.5;
+    margin: 0 0 2rem 0;
+    max-width: 480px;
+  }
+
+  @media screen and (max-width: 767px) {
+    .hero-text-{{ section.id }} {
+      margin: 0 auto 2rem auto;
+    }
+    .hero-container-{{ section.id }} {
+        padding-bottom: 4rem;
+    }
+  }
+
+  .hero-text-{{ section.id }} p {
+    margin: 0;
+  }
+
+  .hero-btn-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ebb30b;
+    color: #000000;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 800;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .hero-btn-{{ section.id }}:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+  }
+{%- endstyle -%}
+
+<section class="hero-{{ section.id }}">
+  
+  <!-- Desktop Background -->
+  <div class="hero-bg-{{ section.id }} hero-bg-desktop-{{ section.id }}">
+    {%- if section.settings.image_desktop != blank -%}
+      {{ section.settings.image_desktop | image_url: width: 2000 | image_tag: loading: 'lazy', sizes: '100vw', widths: '1000, 1500, 2000, 3000' }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'hero-placeholder-' | append: section.id }}
+    {%- endif -%}
+  </div>
+
+  <!-- Mobile Background -->
+  <div class="hero-bg-{{ section.id }} hero-bg-mobile-{{ section.id }}">
+    {%- if section.settings.image_mobile != blank -%}
+      {{ section.settings.image_mobile | image_url: width: 1000 | image_tag: loading: 'lazy', sizes: '100vw', widths: '500, 750, 1000' }}
+    {%- elsif section.settings.image_desktop != blank -%}
+      <!-- Fallback to desktop image on mobile if no mobile image is selected -->
+      {{ section.settings.image_desktop | image_url: width: 1000 | image_tag: loading: 'lazy', sizes: '100vw', widths: '500, 750, 1000' }}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'hero-placeholder-' | append: section.id }}
+    {%- endif -%}
+  </div>
+
+  <!-- Dark Gradient Overlay -->
+  <div class="hero-overlay-{{ section.id }}"></div>
+
+  <!-- Content -->
+  <div class="hero-container-{{ section.id }}">
+    <div class="hero-content-{{ section.id }}">
+      
+      {%- if section.settings.heading != blank -%}
+        <h2 class="hero-title-{{ section.id }}">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="hero-text-{{ section.id }}">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a href="{{ section.settings.button_link }}" class="hero-btn-{{ section.id }}">
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Image Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop Image",
+      "info": "Recommended ratio 16:9 or wider."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image",
+      "info": "Recommended ratio 4:5 or 1:1. If left blank, the desktop image will be used."
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Focal Point",
+      "default": "center center",
+      "options": [
+        { "value": "top left", "label": "Top Left" },
+        { "value": "top center", "label": "Top Center" },
+        { "value": "top right", "label": "Top Right" },
+        { "value": "center left", "label": "Center Left" },
+        { "value": "center center", "label": "Center" },
+        { "value": "center right", "label": "Center Right" },
+        { "value": "bottom left", "label": "Bottom Left" },
+        { "value": "bottom center", "label": "Bottom Center" },
+        { "value": "bottom right", "label": "Bottom Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 80,
+      "info": "Adjusts the dark gradient to make text readable."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WEAR YOUR FAITH<br><em>ONE STEP AT A TIME</em>",
+      "info": "Highlight text using the italic button to make it yellow."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Subtext",
+      "default": "<p>Socks for the covenant-keeping, scripture-loving Latter-day Saint. Because testimony looks good on everyone — even your feet.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SHOP COLLECTIONS"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Section Sizing"
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Desktop Min Height",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Mobile Min Height",
+      "default": 550
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Image Banner"
+    }
+  ]
+}
+{% endschema %}

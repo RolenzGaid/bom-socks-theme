@@ -1,0 +1,1202 @@
+{%- liquid
+  assign image_width = section.settings.image_width | plus: 0
+  assign content_width = 100 | minus: image_width
+  assign image_alt = section.settings.image.alt | default: section.settings.heading | strip_html
+
+  assign has_image = false
+
+  if section.settings.show_image and section.settings.image != blank
+    assign has_image = true
+  endif
+-%}
+
+{%- style -%}
+  #FlexibleImageContent-{{ section.id }} {
+    --fic-background: {{ section.settings.background }};
+    --fic-content-background: {{ section.settings.content_background }};
+    --fic-text-color: {{ section.settings.text_color }};
+    --fic-heading-color: {{ section.settings.heading_color }};
+    --fic-accent-color: {{ section.settings.accent_color }};
+    --fic-muted-color: {{ section.settings.muted_color }};
+    --fic-button-background: {{ section.settings.button_background }};
+    --fic-button-text: {{ section.settings.button_text_color }};
+    --fic-gap: {{ section.settings.column_gap }}px;
+    --fic-radius: {{ section.settings.image_radius }}px;
+
+    background: var(--fic-background);
+    color: var(--fic-text-color);
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #FlexibleImageContent-{{ section.id }} * {
+    box-sizing: border-box;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__container {
+    width: 100%;
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    padding-right: {{ section.settings.horizontal_padding }}px;
+    padding-left: {{ section.settings.horizontal_padding }}px;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--fic-gap);
+    align-items: {{ section.settings.vertical_alignment }};
+  }
+
+  /* Image */
+  #FlexibleImageContent-{{ section.id }} .fic__media {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--fic-radius);
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__image-wrapper--square {
+    aspect-ratio: 1 / 1;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__image-wrapper--portrait {
+    aspect-ratio: 4 / 5;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__image-wrapper--landscape {
+    aspect-ratio: 16 / 10;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__image {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: inherit;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__image-wrapper:not(.fic__image-wrapper--adapt)
+    .fic__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: {{ section.settings.image_fit }};
+    object-position: {{ section.settings.image_focal_point }};
+  }
+
+  /* Content */
+  #FlexibleImageContent-{{ section.id }} .fic__content {
+    min-width: 0;
+    width: 100%;
+    text-align: {{ section.settings.text_alignment }};
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__content-inner {
+    width: 100%;
+    max-width: {{ section.settings.text_max_width }}px;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__content--left
+    .fic__content-inner {
+    margin-right: auto;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__content--center
+    .fic__content-inner {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__content--right
+    .fic__content-inner {
+    margin-left: auto;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__content-card {
+    padding: {{ section.settings.content_padding }}px;
+    background: var(--fic-content-background);
+    border-radius: var(--fic-radius);
+  }
+
+  /* No-image layout */
+  #FlexibleImageContent-{{ section.id }}.fic--no-image .fic__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #FlexibleImageContent-{{ section.id }}.fic--no-image .fic__content {
+    width: 100%;
+    order: 1;
+  }
+
+  /* Kicker */
+  #FlexibleImageContent-{{ section.id }} .fic__kicker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 0 1.5rem;
+    color: var(--fic-accent-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__content--left
+    .fic__kicker {
+    justify-content: flex-start;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__content--center
+    .fic__kicker {
+    justify-content: center;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__content--right
+    .fic__kicker {
+    justify-content: flex-end;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__kicker::after {
+    content: "";
+    display: block;
+    flex: 0 0 {{ section.settings.kicker_line_width }}px;
+    width: {{ section.settings.kicker_line_width }}px;
+    height: 1px;
+    background: var(--fic-muted-color);
+    opacity: 0.4;
+  }
+
+  /* Heading */
+  #FlexibleImageContent-{{ section.id }} .fic__heading {
+    margin: 0 0 1.5rem;
+    color: var(--fic-heading-color);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(
+      2.8rem,
+      5vw,
+      {{ section.settings.heading_size | divided_by: 10.0 }}rem
+    );
+    font-weight: var(--font-heading-weight, 700);
+    line-height: {{ section.settings.heading_line_height | divided_by: 100.0 }};
+    letter-spacing: -0.02em;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__heading em,
+  #FlexibleImageContent-{{ section.id }} .fic__heading i {
+    color: var(--fic-accent-color);
+  }
+
+  /* Body */
+  #FlexibleImageContent-{{ section.id }} .fic__text {
+    color: var(--fic-text-color);
+    font-size: {{ section.settings.body_size | divided_by: 10.0 }}rem;
+    line-height: {{ section.settings.body_line_height | divided_by: 100.0 }};
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__text > *:first-child {
+    margin-top: 0;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__text > *:last-child {
+    margin-bottom: 0;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__text p {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__text a {
+    color: var(--fic-accent-color);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* Button */
+  #FlexibleImageContent-{{ section.id }} .fic__button-wrapper {
+    margin-top: {{ section.settings.button_spacing }}px;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 1.2rem 2.4rem;
+    border: {{ section.settings.button_border_width }}px solid
+      var(--fic-button-background);
+    border-radius: {{ section.settings.button_radius }}px;
+    background: var(--fic-button-background);
+    color: var(--fic-button-text);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__button:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__button[aria-disabled="true"] {
+    cursor: default;
+  }
+
+  /* Quote box */
+  #FlexibleImageContent-{{ section.id }} .fic__quote {
+    position: relative;
+    isolation: isolate;
+    margin-top: {{ section.settings.quote_spacing }}px;
+    padding: {{ section.settings.quote_padding }}px;
+    border-radius: var(--fic-radius);
+    background: {{ section.settings.quote_background }};
+    color: {{ section.settings.quote_text_color }};
+    text-align: {{ section.settings.quote_alignment }};
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__quote--offset::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border: 2px solid var(--fic-accent-color);
+    border-radius: inherit;
+    transform: translate(
+      {{ section.settings.quote_border_offset }}px,
+      {{ section.settings.quote_border_offset }}px
+    );
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__quote-title {
+    margin: 0 0 0.5rem;
+    color: var(--fic-accent-color);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(
+      3rem,
+      5vw,
+      {{ section.settings.quote_title_size | divided_by: 10.0 }}rem
+    );
+    line-height: 1;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__quote-subtitle {
+    margin: 0 0 1.5rem;
+    color: var(--fic-muted-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__quote-divider {
+    width: 100%;
+    height: 1px;
+    margin: 0 0 1.5rem;
+    border: 0;
+    background: currentColor;
+    opacity: 0.15;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__quote-text {
+    margin: 0 0 1.5rem;
+    color: inherit;
+    font-family: var(--font-heading-family, serif);
+    font-size: {{ section.settings.quote_text_size | divided_by: 10.0 }}rem;
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__quote-text
+    > *:first-child {
+    margin-top: 0;
+  }
+
+  #FlexibleImageContent-{{ section.id }}
+    .fic__quote-text
+    > *:last-child {
+    margin-bottom: 0;
+  }
+
+  #FlexibleImageContent-{{ section.id }} .fic__quote-reference {
+    margin: 0;
+    color: var(--fic-accent-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Mobile order */
+  #FlexibleImageContent-{{ section.id }}.fic--mobile-image-first
+    .fic__media {
+    order: 1;
+  }
+
+  #FlexibleImageContent-{{ section.id }}.fic--mobile-image-first
+    .fic__content {
+    order: 2;
+  }
+
+  #FlexibleImageContent-{{ section.id }}.fic--mobile-content-first
+    .fic__content {
+    order: 1;
+  }
+
+  #FlexibleImageContent-{{ section.id }}.fic--mobile-content-first
+    .fic__media {
+    order: 2;
+  }
+
+  /* Desktop layout */
+  @media screen and (min-width: 990px) {
+    #FlexibleImageContent-{{ section.id }}.fic--media-left .fic__grid {
+      grid-template-columns:
+        minmax(0, {{ image_width }}fr)
+        minmax(0, {{ content_width }}fr);
+    }
+
+    #FlexibleImageContent-{{ section.id }}.fic--media-left .fic__media {
+      order: 1;
+    }
+
+    #FlexibleImageContent-{{ section.id }}.fic--media-left .fic__content {
+      order: 2;
+    }
+
+    #FlexibleImageContent-{{ section.id }}.fic--media-right .fic__grid {
+      grid-template-columns:
+        minmax(0, {{ content_width }}fr)
+        minmax(0, {{ image_width }}fr);
+    }
+
+    #FlexibleImageContent-{{ section.id }}.fic--media-right .fic__content {
+      order: 1;
+    }
+
+    #FlexibleImageContent-{{ section.id }}.fic--media-right .fic__media {
+      order: 2;
+    }
+
+    #FlexibleImageContent-{{ section.id }}.fic--no-image .fic__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    #FlexibleImageContent-{{ section.id }}.fic--no-image .fic__content {
+      grid-column: 1;
+      order: 1;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #FlexibleImageContent-{{ section.id }} {
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    }
+
+    #FlexibleImageContent-{{ section.id }} .fic__container {
+      padding-right: {{ section.settings.mobile_horizontal_padding }}px;
+      padding-left: {{ section.settings.mobile_horizontal_padding }}px;
+    }
+
+    #FlexibleImageContent-{{ section.id }} .fic__grid {
+      gap: {{ section.settings.mobile_gap }}px;
+    }
+
+    #FlexibleImageContent-{{ section.id }} .fic__content-card {
+      padding: {{ section.settings.mobile_content_padding }}px;
+    }
+
+    #FlexibleImageContent-{{ section.id }} .fic__quote {
+      padding: {{ section.settings.mobile_quote_padding }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="FlexibleImageContent-{{ section.id }}"
+  class="
+    fic
+    {% if has_image %}
+      fic--has-image
+      fic--media-{{ section.settings.image_position }}
+      fic--mobile-{{ section.settings.mobile_order }}
+    {% else %}
+      fic--no-image
+    {% endif %}
+  "
+>
+  <div class="fic__container">
+    <div class="fic__grid">
+      {%- if has_image -%}
+        <div class="fic__media">
+          <div class="fic__image-wrapper fic__image-wrapper--{{ section.settings.image_ratio }}">
+            {{
+              section.settings.image
+              | image_url: width: 2400
+              | image_tag:
+                class: 'fic__image',
+                loading: 'lazy',
+                widths: '375, 550, 750, 900, 1100, 1500, 1800, 2200',
+                sizes: '(min-width: 990px) 50vw, 100vw',
+                alt: image_alt
+            }}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <div class="fic__content fic__content--{{ section.settings.text_alignment }}">
+        <div
+          class="
+            fic__content-inner
+            {% if section.settings.enable_content_card %}
+              fic__content-card
+            {% endif %}
+          "
+        >
+          {%- if section.settings.kicker != blank -%}
+            <div class="fic__kicker">
+              <span>{{ section.settings.kicker }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h2 class="fic__heading">
+              {{ section.settings.heading }}
+            </h2>
+          {%- endif -%}
+
+          {%- if section.settings.body_text != blank -%}
+            <div class="fic__text">
+              {{ section.settings.body_text }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <div class="fic__button-wrapper">
+              <a
+                class="fic__button"
+                {% if section.settings.button_link != blank %}
+                  href="{{ section.settings.button_link }}"
+                {% else %}
+                  role="link"
+                  aria-disabled="true"
+                {% endif %}
+              >
+                {{ section.settings.button_label }}
+              </a>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_quote -%}
+            <div
+              class="
+                fic__quote
+                {% if section.settings.quote_offset_border %}
+                  fic__quote--offset
+                {% endif %}
+              "
+            >
+              {%- if section.settings.quote_title != blank -%}
+                <h3 class="fic__quote-title">
+                  {{ section.settings.quote_title }}
+                </h3>
+              {%- endif -%}
+
+              {%- if section.settings.quote_subtitle != blank -%}
+                <p class="fic__quote-subtitle">
+                  {{ section.settings.quote_subtitle }}
+                </p>
+              {%- endif -%}
+
+              {%- if section.settings.quote_text != blank -%}
+                <hr class="fic__quote-divider">
+
+                <blockquote class="fic__quote-text">
+                  {{ section.settings.quote_text }}
+                </blockquote>
+              {%- endif -%}
+
+              {%- if section.settings.quote_reference != blank -%}
+                <p class="fic__quote-reference">
+                  {{ section.settings.quote_reference }}
+                </p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Flexible Image Content",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "WHY WE MADE THIS"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Socks with <em>a mission.</em>",
+      "info": "Italicized text uses the accent color."
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Body text",
+      "default": "<p>We create products that carry a message—stylish enough to rock around your friends and meaningful enough to spark a conversation.</p><p>Add, remove, or format this content in the theme editor.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Learn more"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "button_spacing",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Space above button",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show image",
+      "default": true,
+      "info": "Turn this off to use a content-only layout."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "mobile_order",
+      "label": "Mobile order",
+      "options": [
+        {
+          "value": "image-first",
+          "label": "Image first"
+        },
+        {
+          "value": "content-first",
+          "label": "Content first"
+        }
+      ],
+      "default": "image-first"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 30,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "label": "Desktop image width",
+      "default": 50
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ],
+      "default": "adapt"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Crop to fill"
+        },
+        {
+          "value": "contain",
+          "label": "Show entire image"
+        }
+      ],
+      "default": "cover",
+      "info": "Used when a fixed image ratio is selected."
+    },
+    {
+      "type": "select",
+      "id": "image_focal_point",
+      "label": "Image focal point",
+      "options": [
+        {
+          "value": "left top",
+          "label": "Top left"
+        },
+        {
+          "value": "center top",
+          "label": "Top center"
+        },
+        {
+          "value": "right top",
+          "label": "Top right"
+        },
+        {
+          "value": "left center",
+          "label": "Center left"
+        },
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "right center",
+          "label": "Center right"
+        },
+        {
+          "value": "left bottom",
+          "label": "Bottom left"
+        },
+        {
+          "value": "center bottom",
+          "label": "Bottom center"
+        },
+        {
+          "value": "right bottom",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum section width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop column gap",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile column gap",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "text_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 25,
+      "unit": "px",
+      "label": "Maximum content width",
+      "default": 650,
+      "info": "Increase this when using the section without an image."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_content_card",
+      "label": "Add background behind content",
+      "default": false
+    },
+    {
+      "type": "color_background",
+      "id": "content_background",
+      "label": "Content background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop content padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_content_padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile content padding",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body text color",
+      "default": "#444444"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ebb30b"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text and divider color",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Button border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button corner radius",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Optional quote box"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quote",
+      "label": "Show quote box",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "quote_title",
+      "label": "Quote title",
+      "default": "1 Ne."
+    },
+    {
+      "type": "text",
+      "id": "quote_subtitle",
+      "label": "Quote subtitle",
+      "default": "WHERE IT ALL BEGAN"
+    },
+    {
+      "type": "richtext",
+      "id": "quote_text",
+      "label": "Quote",
+      "default": "<p>I will go and do the things which the Lord hath commanded.</p>"
+    },
+    {
+      "type": "text",
+      "id": "quote_reference",
+      "label": "Quote reference",
+      "default": "1 NEPHI 3:7"
+    },
+    {
+      "type": "color",
+      "id": "quote_background",
+      "label": "Quote background",
+      "default": "#0f0f0f"
+    },
+    {
+      "type": "color",
+      "id": "quote_text_color",
+      "label": "Quote text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "quote_alignment",
+      "label": "Quote alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "quote_offset_border",
+      "label": "Show offset accent border",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "quote_border_offset",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Quote border offset",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "quote_spacing",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Space above quote",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "quote_padding",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop quote padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_quote_padding",
+      "min": 12,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile quote padding",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 28,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Maximum heading size",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "min": 90,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "label": "Heading line height",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body text size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "body_line_height",
+      "min": 120,
+      "max": 220,
+      "step": 5,
+      "unit": "%",
+      "label": "Body line height",
+      "default": 165
+    },
+    {
+      "type": "range",
+      "id": "kicker_line_width",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Kicker line width",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "quote_title_size",
+      "min": 30,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Quote title size",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "quote_text_size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Quote text size",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Desktop spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Side padding",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Mobile spacing"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile bottom padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "mobile_horizontal_padding",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile side padding",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flexible Image Content"
+    }
+  ]
+}
+{% endschema %}

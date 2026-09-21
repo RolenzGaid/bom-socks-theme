@@ -1,0 +1,18 @@
+{% comment %}
+    Renders a product card placeholder
+
+    Usage:
+    {% render 'product-card-placeholder' %}
+{% endcomment %}
+
+<div class="{{ productItem }}">
+  <div class="mb-15 placeholder placeholder_svg_parent" style="padding-bottom: 100%">
+    {% if round_image %}
+     {{ product_item | placeholder_svg_tag: 'placeholder-svg rounded--image' }}
+    {% else %}
+    {{ product_item | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  </div>
+  <span style="color:rgb(var(--color-foreground))"> Product Title </span> <br />
+  <span style="color:rgb(var(--color-foreground))">$99.99</span>
+</div>

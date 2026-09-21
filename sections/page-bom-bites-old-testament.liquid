@@ -1,0 +1,293 @@
+{% comment %}
+BOM Bites – Scripture-set pages
+UPDATED: Added support for up to 10 YouTube URLs.
+1. Safari Fix: 'loading="lazy"' on iframes.
+2. Mobile Fix: Pre-filtering with 'where' for speed.
+3. Week 10 Fix: Fuzzy matching for "Old Testament ".
+{% endcomment %}
+
+{%- liquid
+  assign ABOUT_LOGO_URL = "https://cdn.shopify.com/s/files/1/1726/6105/files/B.O.M.Bites_Logo_Updated_2_480x480.png?v=1732594745"
+  assign PODCAST_URL = "https://podcasts.apple.com/us/podcast/the-bom-bites-come-follow-me-podcast/id1606787165"
+
+  assign HANDLE_NT  = "b-o-m-bites-new-testament"
+  assign HANDLE_OT  = "bom-bites-old-testatment" 
+  assign HANDLE_BOM = "b-o-m-bites-book-of-mormon"
+  assign HANDLE_DC  = "b-o-m-bites-doctrine-covenants"
+
+  assign active_set_label = "Old Testament"
+
+  if page.handle == HANDLE_NT
+    assign active_set_label = "New Testament"
+  elsif page.handle == HANDLE_OT
+    assign active_set_label = "Old Testament"
+  elsif page.handle == HANDLE_BOM
+    assign active_set_label = "Book of Mormon"
+  elsif page.handle == HANDLE_DC
+    assign active_set_label = "D&C + Pearl of Great Price"
+  endif
+  
+  assign preview_qs = ""
+  if request.params.preview_theme_id != blank
+    assign preview_qs = preview_qs | append: "&preview_theme_id=" | append: request.params.preview_theme_id
+  endif
+-%}
+
+<style>
+  .bb-wrap{max-width:1100px;margin:0 auto;padding:24px 20px 64px;}
+  .bb-title{font-size:40px;letter-spacing:.02em;margin:0 0 6px 0;}
+  .bb-subtitle{margin:0 0 18px 0;opacity:.85;}
+  
+  /* HEADER STYLES */
+  .bb-about{border:1px solid #e1e1e1;border-radius:0;background:#fff;margin:10px 0 24px;overflow:hidden;}
+  .bb-about summary{list-style:none;cursor:pointer;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:18px;background:#fff;color: #111;}
+  .bb-about summary::-webkit-details-marker{display:none;}
+  .bb-about .bb-chevron{transition:transform 180ms ease;}
+  .bb-about[open] .bb-chevron{transform:rotate(180deg);}
+  .bb-about-content{padding:0 20px 24px;border-top:1px solid #f0f0f0;background:#fff;}
+  .bb-about-grid{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:start;padding-top:20px;}
+  .bb-about-logo{width:100%;height:auto;display:block;}
+  .bb-about-text p {margin: 0 0 12px;line-height: 1.6;font-size: 16px;color: #333;}
+  .bb-about-text a {text-decoration: underline;color: inherit;font-weight: 600;}
+  @media (max-width: 768px){.bb-about-grid{grid-template-columns:1fr; gap:12px;}.bb-about-logo{max-width:140px; margin-bottom: 10px;}}
+
+  /* TABS */
+  .bb-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 8px;}
+  .bb-tab{display:inline-block;padding:10px 14px;border:1px solid #111;text-decoration:none;line-height:1;font-size:14px;font-weight:700;background:#fff;color:#111 !important;}
+  .bb-tab:hover{background:#fff;color:#111 !important;}
+  .bb-tab.is-active{background:#111;color:#fff !important;border-color:#111;}
+  .bb-toolbar{display:flex;gap:12px;align-items:center;margin:6px 0 18px;}
+  .bb-viewing{opacity:1;font-size:14px;}
+
+  /* LESSONS */
+  .bb-range{border-top:1px solid #eee;}
+  .bb-range details{border-bottom:1px solid #eee;}
+  .bb-range summary{list-style:none;cursor:pointer;padding:16px 14px;display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;font-weight:700;font-size:18px;}
+  .bb-range summary::-webkit-details-marker{display:none;}
+  .bb-hint{font-weight:400;font-size:13px;opacity:.7;}
+  .bb-range details[open] > summary .bb-chevron{transform:rotate(180deg);}
+  @media (min-width: 768px){ .bb-hint{display:none;} }
+  .bb-lesson{border-top:1px solid #f1f1f1;}
+  .bb-lesson details{border-bottom:1px solid #f1f1f1;}
+  .bb-lesson summary{list-style:none;cursor:pointer;padding:16px 14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;}
+  .bb-lesson summary::-webkit-details-marker{display:none;}
+  .bb-lesson-head{display:flex;flex-direction:column;gap:8px;min-width:0;}
+  .bb-pill{display:inline-flex;align-items:center;gap:8px;width:fit-content;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:5px 10px;background:#111;color:#fff;opacity:.9;}
+  .bb-pill::before{content:"";width:6px;height:6px;background:#f2d14b;display:inline-block;}
+  .bb-main{margin:0;font-size:22px;font-weight:800;letter-spacing:.2px;text-transform:uppercase;}
+  .bb-sub{margin:0;opacity:.9;font-size:16px;}
+  .bb-date{margin:0;opacity:.7;font-size:14px;}
+  .bb-lesson .bb-row-chevron{opacity:.7;font-size:18px;line-height:1;transition:transform 180ms ease;}
+  .bb-lesson details[open] > summary .bb-row-chevron{transform:rotate(180deg);}
+  .bb-body{padding:0 14px 18px;}
+  .bb-video{position:relative;padding-top:56.25%;border:1px solid #e6e6e6;background:#000;margin-top:14px;}
+  .bb-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+  .bb-empty{padding:14px;border:1px dashed #ddd;margin:12px 0;}
+</style>
+
+<div class="bb-wrap">
+  <h1 class="bb-title">BOM BITES</h1>
+  <p class="bb-subtitle">Week-by-week Come Follow Me video lessons, organized by scripture book.</p>
+
+  <details class="bb-about" open>
+    <summary><span>About B.O.M.-Bites</span><span class="bb-chevron">▾</span></summary>
+    <div class="bb-about-content">
+      <div class="bb-about-grid">
+        <div><img class="bb-about-logo" src="{{ ABOUT_LOGO_URL }}" alt="Logo"></div>
+        <div class="bb-about-text">
+          <p><strong>B.O.M.-Bites</strong> are short, weekday video episodes—typically under 10 minutes—designed to help you <em>feast upon the words of Christ, one bite at a time</em>.</p>
+          <p>Each episode offers simple, meaningful insights to support your <strong>Come, Follow Me</strong> study, whether you’re learning individually or as a family.</p>
+          <p><strong>A quick note:</strong> These episodes were originally filmed for the 2020-2024 <em>Come, Follow Me</em> curriculum. While specific dates may differ, the gospel principles, teaching ideas, and insights remain highly adaptable and relevant for current study.</p>
+          <p>Prefer to listen on the go? You can also subscribe to the <strong>B.O.M.-Bites audio podcast</strong> on Apple Podcasts <a href="{{ PODCAST_URL }}" target="_blank">here</a>.</p>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <div class="bb-tabs">
+    <a class="bb-tab {% if page.handle == HANDLE_NT %}is-active{% endif %}" href="/pages/{{ HANDLE_NT }}{% if preview_qs != blank %}?{{ preview_qs | remove_first: '&' }}{% endif %}">New Testament</a>
+    <a class="bb-tab {% if page.handle == HANDLE_OT %}is-active{% endif %}" href="/pages/{{ HANDLE_OT }}{% if preview_qs != blank %}?{{ preview_qs | remove_first: '&' }}{% endif %}">Old Testament</a>
+    <a class="bb-tab {% if page.handle == HANDLE_BOM %}is-active{% endif %}" href="/pages/{{ HANDLE_BOM }}{% if preview_qs != blank %}?{{ preview_qs | remove_first: '&' }}{% endif %}">Book of Mormon</a>
+    <a class="bb-tab {% if page.handle == HANDLE_DC %}is-active{% endif %}" href="/pages/{{ HANDLE_DC }}{% if preview_qs != blank %}?{{ preview_qs | remove_first: '&' }}{% endif %}">D&amp;C + Pearl of Great Price</a>
+  </div>
+
+  <div class="bb-toolbar">
+    <div class="bb-viewing">Now viewing: <strong>{{ active_set_label }}</strong></div>
+  </div>
+
+  {% paginate shop.metaobjects.bom_bites.values by 500 %}
+    {% comment %}
+       FAST DATA LOADING:
+       1. Get all lessons.
+       2. Use 'where' to filter instantly (no loops).
+       3. Combine "Old Testament" and "Old Testament " (typo fix).
+    {% endcomment %}
+    {% assign raw_lessons = shop.metaobjects.bom_bites.values %}
+    
+    {% assign clean_book = active_set_label | strip %}
+    {% assign dirty_book = clean_book | append: " " %}
+    
+    {% assign set1 = raw_lessons | where: "book", clean_book %}
+    {% assign set2 = raw_lessons | where: "book", dirty_book %}
+    {% assign active_lessons = set1 | concat: set2 %}
+
+    {% if active_lessons.size > 0 %}
+      
+      {% assign buckets = "1-10|11-20|21-30|31-40|41-52" | split: "|" %}
+      
+      <div class="bb-range">
+        {% for bucket in buckets %}
+          {% assign start_num = bucket | split: "-" | first | plus: 0 %}
+          {% assign end_num   = bucket | split: "-" | last  | plus: 0 %}
+          {% assign bucket_has_items = false %}
+
+          {% comment %} CHECK: Do we have any lessons for this bucket? {% endcomment %}
+          {% for lesson in active_lessons %}
+            {% assign wk = lesson.week_number | plus: 0 %}
+            {% if wk >= start_num and wk <= end_num %}
+              {% assign bucket_has_items = true %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+
+          {% if bucket_has_items %}
+            <details {% if forloop.first %}open{% endif %}>
+              <summary>
+                <span>Weeks {{ start_num }}–{{ end_num }}</span>
+                <span class="bb-hint">Tap to expand</span>
+                <span class="bb-chevron">▾</span>
+              </summary>
+
+              {% comment %}
+                 STRICT ORDERING LOOP (FAST):
+                 We iterate 1..52. For each number, we scan the SMALL list of active lessons.
+                 2600 total checks = Instant load.
+              {% endcomment %}
+              {% for i in (start_num..end_num) %}
+                 {% for lesson in active_lessons %}
+                    {% assign wk = lesson.week_number | plus: 0 %}
+
+                    {% if wk == i %}
+                      {% assign main_title = lesson.scripture_reference | default: lesson.lesson_title %}
+                      
+                      <div class="bb-lesson" id="week-{{ wk }}">
+                        <details>
+                          <summary>
+                            <div class="bb-lesson-head">
+                              <div class="bb-pill">WEEK {{ wk }} — {{ active_set_label }}</div>
+                              {% if main_title != blank %}<h3 class="bb-main">{{ main_title }}</h3>{% endif %}
+                              {% if lesson.lesson_title != blank and lesson.lesson_title != main_title %}
+                                <p class="bb-sub"><strong>{{ lesson.lesson_title }}</strong></p>
+                              {% endif %}
+                              {% if lesson.date_range != blank %}<p class="bb-date">{{ lesson.date_range }}</p>{% endif %}
+                            </div>
+                            <div class="bb-row-chevron">▾</div>
+                          </summary>
+
+                          <div class="bb-body">
+                            {%- liquid
+                              assign urls_raw = ""
+                              assign u1 = lesson.youtube_url | strip
+                              assign u2 = lesson.youtube_url_2 | strip
+                              assign u3 = lesson.youtube_url_3 | strip
+                              assign u4 = lesson.youtube_url_4 | strip
+                              assign u5 = lesson.youtube_url_5 | strip
+                              assign u6 = lesson.youtube_url_6 | strip
+                              assign u7 = lesson.youtube_url_7 | strip
+                              assign u8 = lesson.youtube_url_8 | strip
+                              assign u9 = lesson.youtube_url_9 | strip
+                              assign u10 = lesson.youtube_url_10 | strip
+                              
+                              if u1 != blank 
+                                assign urls_raw = urls_raw | append: u1 | append: "|||" 
+                              endif
+                              if u2 != blank 
+                                assign urls_raw = urls_raw | append: u2 | append: "|||" 
+                              endif
+                              if u3 != blank 
+                                assign urls_raw = urls_raw | append: u3 | append: "|||" 
+                              endif
+                              if u4 != blank 
+                                assign urls_raw = urls_raw | append: u4 | append: "|||" 
+                              endif
+                              if u5 != blank 
+                                assign urls_raw = urls_raw | append: u5 | append: "|||" 
+                              endif
+                              if u6 != blank 
+                                assign urls_raw = urls_raw | append: u6 | append: "|||" 
+                              endif
+                              if u7 != blank 
+                                assign urls_raw = urls_raw | append: u7 | append: "|||" 
+                              endif
+                              if u8 != blank 
+                                assign urls_raw = urls_raw | append: u8 | append: "|||" 
+                              endif
+                              if u9 != blank 
+                                assign urls_raw = urls_raw | append: u9 | append: "|||" 
+                              endif
+                              if u10 != blank 
+                                assign urls_raw = urls_raw | append: u10 | append: "|||" 
+                              endif
+                              
+                              assign urls = urls_raw | split: "|||"
+                            -%}
+
+                            {% if urls.size > 0 %}
+                              {% for yt in urls %}
+                                {% if yt != blank %}
+                                  {%- liquid
+                                    assign video_id = ""
+                                    if yt contains "v="
+                                      assign video_id = yt | split: "v=" | last | split: "&" | first
+                                    elsif yt contains "youtu.be/"
+                                      assign video_id = yt | split: "youtu.be/" | last | split: "?" | first
+                                    elsif yt contains "/embed/"
+                                      assign video_id = yt | split: "/embed/" | last | split: "?" | first
+                                    endif
+                                  -%}
+                                  
+                                  {% if video_id != blank %}
+                                    <div class="bb-video">
+                                      <iframe 
+                                        src="https://www.youtube.com/embed/{{ video_id }}" 
+                                        loading="lazy" 
+                                        allowfullscreen>
+                                      </iframe>
+                                    </div>
+                                  {% else %}
+                                    <div class="bb-empty">⚠️ Bad URL format: {{ yt }}</div>
+                                  {% endif %}
+                                {% endif %}
+                              {% endfor %}
+                            {% else %}
+                              <div class="bb-empty">
+                                ⚠️ No YouTube URL provided for this lesson.
+                              </div>
+                            {% endif %}
+                          </div>
+                        </details>
+                      </div>
+                      {% break %} 
+                    {% endif %}
+                 {% endfor %}
+              {% endfor %}
+            </details>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  {% endpaginate %}
+</div>
+
+{% schema %}
+{
+  "name": "BOM BITES PODCAST",
+  "settings": [],
+  "presets": [
+    {
+      "name": "BOM BITES PODCAST"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,199 @@
+.image__banner {
+  background: rgb(var(--color-background));
+}
+.image__banner .banner__heading__title {
+  color: rgba(var(--color-foreground));
+  font-weight: 500;
+}
+.image__banner .banner__heading__title.h1 {
+  font-size: 46px;
+}
+.image__banner .banner__heading__title.h2 {
+  font-size: 36px;
+}
+.image__banner .banner__heading__title.h3 {
+  font-size: 36px;
+}
+.image__banner .banner__heading__title.h4 {
+  font-size: 30px;
+}
+.image__banner .banner--list-text.h4 {
+  font-size: 16px;
+}
+.image__banner .banner--list-text.h3 {
+  font-size: 18px;
+}
+.image__banner--item-content{
+  background: rgb(var(--color-background));
+  padding: 30px 10px;
+}
+.image__banner--item-content.show__content--image-below{
+  background: rgb(var(--color-background))
+}
+.image__banner--item-content-inner .button {
+  margin-top: 20px;
+}
+.image__banner--item-content-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0px;
+}
+.show__content--image-below .image__banner--item-content-inner {
+  margin-top: 0rem;
+  width: 100%;
+}
+
+
+@media screen and (min-width: 750px) {
+  .image__banner .banner__heading__title.h1 {
+    font-size: 60px;
+  }
+  .image__banner .banner--list-text.h3 {
+    font-size: 20px;
+    margin-bottom: 0px;
+  }
+}
+@media screen and (min-width: 991px) {
+  .image__banner .banner__heading__title.h1 {
+    font-size: 80px;
+  }
+  .image__banner .banner--list-text.h3 {
+    font-size: 20px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .image__banner .banner__heading__title.h1 {
+    font-size: 96px;
+  }
+  .image__banner .banner--list-text.h3 {
+    font-size: 24px;
+  }
+}
+@media only screen and (min-width: 750px) {
+  .image__banner--item-content:not(.show__content--image-below) {
+    background: transparent;
+    position: absolute;
+    z-index: 11;
+    /* bottom: 2rem;
+    left: 2rem;
+    right: 2rem;
+    top: 2rem; */
+  }
+  .image__banner--item-content-position--small:not(.show__content--image-below) {
+    bottom: 2rem;
+    left: 2rem;
+    right: 2rem;
+    top: 2rem;
+  }
+  .image__banner--item-content-position--medium:not(.show__content--image-below) {
+    bottom: 3rem;
+    left: 3rem;
+    right: 3rem;
+    top: 3rem;
+  }
+  .image__banner--item-content-position--large:not(.show__content--image-below) {
+    bottom: 6rem;
+    left: 8rem;
+    right: 6rem;
+    top: 6rem;
+  }
+  .image__banner--item-content-inner{
+    gap: 15px;
+  }
+  .show__content--image-below .image__banner--item-content-inner {
+    margin-top: 0rem;
+    width: 100%;
+  }
+  .image__banner--item-content-inner .button{
+    margin-top: 10px;
+  }
+  .image__banner .banner__heading--space {
+    margin: 0;
+  }
+  .image__banner .banner__heading__title.h2 {
+    font-size: 50px;
+  }
+  .image__banner .banner__heading__title.h3 {
+    font-size: 46px;
+  }
+  .image__banner .banner__heading__title.h4 {
+    font-size: 36px;
+  }
+}
+
+
+.image__banner--item-content-inner > * {
+  align-self: var(--content-align-self);
+}
+.image__banner--item-overlay {
+  position: relative;
+  overflow: hidden;
+}
+.image__banner .banner--list-text {
+  color: rgba(var(--color-foreground), 0.75);
+}
+.image__banner--media.rounded--image {
+  overflow: hidden;
+}
+.image__banner--media.media::before {
+  position: absolute;
+  content: "";
+  background: #000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  opacity: var(--banner-list-media-overlay-opacity, 0.3);
+}
+.image__banner--item-content:not(.show__content--image-below)
+  .banner--list-text {
+  color: rgba(var(--color-foreground));
+  /* font-size: 16px; */
+  font-weight: 400;
+}
+.image__banner--media.placeholder > svg.placeholder-svg {
+  max-width: 100%;
+  /* z-index: 99 */
+}
+.image__banner--media.media > img {
+  transition: all 0.7s ease 0s;
+}
+
+.image__banner--item:hover .image__banner--media.media > img {
+  transform: scale(1.05);
+}
+.image__banner--item-content-inner .link.with--icon {
+  text-decoration: underline;
+  padding: 0;
+}
+
+.image__banner--media.placeholder {
+  height: 35rem;
+}
+.image__banner__media--small {
+  height: 19.4rem;
+}
+
+.image__banner__media--large {
+  height: 43.5rem;
+}
+
+.image__banner__media--medium {
+  height: 30rem;
+}
+@media screen and (min-width: 767px) {
+  .image__banner__media--small {
+    height: 31.4rem;
+  }
+  .image__banner__media--medium {
+    height: 50rem;
+  }
+  .image__banner__media--large {
+    height: 69.5rem;
+  }
+  .image__banner--media.placeholder {
+    height: 45rem;
+  }
+}

@@ -1,0 +1,52 @@
+<div class="testimonial__card   color-{{ section.settings.card_color_scheme }} {% if round_image %}rounded--card{% endif %}">
+  <div class="testimonial__card--body card--client-height ">
+    <div class="testimonial__card--header {% unless card_background %} card--client-height  color-{{ section.settings.card_color_scheme }} {% if round_image %}rounded--image{% endif %} {% endunless %}">
+      <h3 class="h6 card__title">
+        {{- testimonial_heading | replace: 'p>', 'span>' -}}
+      </h3>
+      {% unless rating == 'none' %}
+        <div class="testimonial__card--review">
+          <div class="rating" role="img" aria-label="5.0 out of 5.0 stars">
+            <span
+              aria-hidden="true"
+              class="rating-star"
+              style="--rating: {{ rating }}; --rating-max: 5.0; --rating-decimal: 0; --color-icon: {{ rating_color }};"
+            ></span>
+          </div>
+        </div>
+      {% endunless %}
+
+      <p class="testimonial__card--text">{{- testimonial_text -}}</p>
+    </div>
+    <div class="testimonial__card--footer">
+      <div class="testimonial__card--footer-inner {% if author_image %}d-flex{% endif %}">
+        {% if author_image %}
+          <div class="testimonial__card--media {% if image != blank %} testimonial__author--media{% else %}placeholder testimonial__author--placeholder{% endif %}">
+            {%- if image != blank -%}
+              <img
+                class="multicolumn-card__image"
+                srcset="
+                  {%- if image.width >= 275 -%}{{ image | image_url: width: 275 }} 275w,{%- endif -%}
+                  {%- if image.width >= 550 -%}{{ image | image_url: width: 550 }} 550w,{%- endif -%}
+                  {{ image | image_url }} {{ image.width }}w
+                "
+                src="{{ image | image_url: width: 200 }}"
+                sizes="200px"
+                alt="{{ image.alt }}"
+                height="{{ image.height }}"
+                width="{{ image.width }}"
+                loading="lazy"
+              >
+            {%- else -%}
+              {{ 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg rounded--image' }}
+            {%- endif -%}
+          </div>
+        {% endif %}
+        <div class="testimonial__card--foter-content {% if author_image %}testimonial__space{% endif %}">
+          <h4 class="testimonial__author--name h6">{{ author_name }}</h4>
+          <span class="testimonial__author--title">{{ author_designation }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

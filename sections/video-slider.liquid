@@ -1,0 +1,226 @@
+{% comment %}
+  Video Slider Section with Swiper.js
+{% endcomment %}
+
+<style>
+  .video-slider-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    overflow: hidden; /* Prevent slider overflow */
+  }
+
+  .video-slider-{{ section.id }} .page-width {
+    padding: 0;
+    }
+  
+  .video-slider-{{ section.id }} .title {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  /* Make sure videos fit neatly inside the slider */
+  .swiper-testimonial-{{ section.id }} .testimonial__image {
+    width: 100%;
+    position: relative;
+  }
+
+  .swiper-testimonial-{{ section.id }} video {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px; /* Optional: adjust to match your theme */
+  }
+
+  /* Positioning for Swiper controls */
+  .swiper-pagination-{{ section.id }} {
+    position: relative;
+    margin-top: 1.5rem;
+  }
+  
+  .video-slider-{{ section.id }} .swiper-pagination-bullet-active {
+    background: #000 !important;
+    }
+</style>
+
+<div class="video-slider video-slider-{{ section.id }}">
+  <div class="testimonials page-width">
+    
+    {%- if section.settings.title != blank -%}
+      <h2 class="title inline-richtext h2">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    <!-- Retaining original custom SVG clip-path -->
+    <svg class="visually-hidden" style="display: none;">
+      <defs>
+        <clipPath id="testimonial-clip-path" clipPathUnits="objectBoundingBox">
+          <path d="M0.11,0.09 C0.014,0.174,-0.003,0.398,0,0.499 C-0.003,0.618,0.015,0.849,0.125,0.919 C0.235,0.989,0.413,0.997,0.504,0.999 C0.604,0.999,0.719,0.999,0.869,0.924 C0.974,0.849,0.994,0.704,0.999,0.499 C1,0.295,0.984,0.155,0.879,0.075 C0.796,0.011,0.593,-0.003,0.504,0 C0.413,-0.005,0.206,0.006,0.11,0.09"></path>
+        </clipPath>
+      </defs>
+    </svg>
+
+    <!-- Swiper Container -->
+    <div class="swiper swiper-testimonial-{{ section.id }}">
+      <div class="swiper-wrapper">
+        
+        {%- if section.blocks.size > 0 -%}
+          {%- for block in section.blocks -%}
+            <div class="swiper-slide video-slider-item" {{ block.shopify_attributes }}>
+              <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+                {%- if block.settings.video != blank -%}
+                  {{ block.settings.video | video_tag: playsinline: true, autoplay: true, loop: true, controls: true, muted: true }}
+                {%- else -%}
+                  {{ block.settings.custom_video_html }}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <!-- FALLBACK: Your exact original 9 videos so nothing goes missing out of the box -->
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/19cecfe7f28740b0b12bc24748b9f718.thumbnail.0000000000_small.jpg?v=1734064968"><source src="//bomsocks.com/cdn/shop/videos/c/vp/19cecfe7f28740b0b12bc24748b9f718/19cecfe7f28740b0b12bc24748b9f718.HD-1080p-7.2Mbps-39634371.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/354fccce100f469db539c315cb0eaf96.thumbnail.0000000000_small.jpg?v=1734064791"><source src="//bomsocks.com/cdn/shop/videos/c/vp/354fccce100f469db539c315cb0eaf96/354fccce100f469db539c315cb0eaf96.HD-1080p-7.2Mbps-39634375.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/22389ab9910b4ff0a8f7307e6e033ca1.thumbnail.0000000000_small.jpg?v=1734064933"><source src="//bomsocks.com/cdn/shop/videos/c/vp/22389ab9910b4ff0a8f7307e6e033ca1/22389ab9910b4ff0a8f7307e6e033ca1.HD-1080p-7.2Mbps-39634377.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/695a5358b5114a60aecf50460f36a911.thumbnail.0000000000_small.jpg?v=1734064852"><source src="//bomsocks.com/cdn/shop/videos/c/vp/695a5358b5114a60aecf50460f36a911/695a5358b5114a60aecf50460f36a911.HD-1080p-7.2Mbps-39634370.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/3264f6637628498f8924a0831ce2cba4.thumbnail.0000000000_small.jpg?v=1734064962"><source src="//bomsocks.com/cdn/shop/videos/c/vp/3264f6637628498f8924a0831ce2cba4/3264f6637628498f8924a0831ce2cba4.HD-1080p-7.2Mbps-39634369.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/94ed06846b424d87aa7e7b287a4bea6b.thumbnail.0000000000_small.jpg?v=1734064730"><source src="//bomsocks.com/cdn/shop/videos/c/vp/94ed06846b424d87aa7e7b287a4bea6b/94ed06846b424d87aa7e7b287a4bea6b.HD-1080p-7.2Mbps-39634373.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/2cb077f26f7a4de5855b20e2249ffdbf.thumbnail.0000000000_small.jpg?v=1734064961"><source src="//bomsocks.com/cdn/shop/videos/c/vp/2cb077f26f7a4de5855b20e2249ffdbf/2cb077f26f7a4de5855b20e2249ffdbf.HD-1080p-7.2Mbps-39634368.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/20098700496f4fa59faa34addf66266c.thumbnail.0000000000_small.jpg?v=1734064706"><source src="//bomsocks.com/cdn/shop/videos/c/vp/20098700496f4fa59faa34addf66266c/20098700496f4fa59faa34addf66266c.HD-1080p-7.2Mbps-39634367.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+          <div class="swiper-slide video-slider-item">
+            <div class="testimonial__image media-wrapper media-wrapper--small" style="clip-path: url(#testimonial-clip-path);">
+               <video playsinline="true" autoplay="autoplay" loop="loop" controls="controls" muted="muted" preload="metadata" poster="//bomsocks.com/cdn/shop/files/preview_images/db4f4c687d8f4e8fb71b9cd1ce5e297e.thumbnail.0000000000_small.jpg?v=1734064929"><source src="//bomsocks.com/cdn/shop/videos/c/vp/db4f4c687d8f4e8fb71b9cd1ce5e297e/db4f4c687d8f4e8fb71b9cd1ce5e297e.HD-1080p-7.2Mbps-39634365.mp4?v=0" type="video/mp4"></video>
+            </div>
+          </div>
+        {%- endif -%}
+
+      </div>
+      
+      <!-- Swiper Pagination Nodes -->
+      <div class="swiper-pagination swiper-pagination-{{ section.id }}"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('.swiper-testimonial-{{ section.id }}', {
+      slidesPerView: 1.5,
+      spaceBetween: 15,
+      loop: true,
+
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+
+      pagination: {
+        el: '.swiper-pagination-{{ section.id }}',
+        clickable: true,
+      },
+
+      breakpoints: {
+        640: {
+          slidesPerView: 2.5,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 3.5,
+          spaceBetween: 30,
+        },
+        1024: {
+          slidesPerView: 4,
+          spaceBetween: 30,
+        },
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Video Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "What our friends are saying"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_block",
+      "name": "Video Slide",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Shopify Hosted Video",
+          "info": "Select a video from your Shopify files."
+        },
+        {
+          "type": "html",
+          "id": "custom_video_html",
+          "label": "Custom Video HTML",
+          "info": "Use this if you are pasting raw <video> code instead of picking a Shopify file."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Testimonial Slider"
+    }
+  ]
+}
+{% endschema %}

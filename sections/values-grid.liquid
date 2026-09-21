@@ -1,0 +1,266 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    background-color: #ffffff;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .values-container-{{ section.id }} {
+    max-width: var(--page-width, 1200px);
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* --- HEADER AREA --- */
+  .values-header-{{ section.id }} {
+    margin-bottom: 4rem;
+    max-width: 800px;
+  }
+
+  .values-kicker-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #ebb30b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+  }
+
+  .values-kicker-{{ section.id }}::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background-color: #e5e5e5;
+  }
+
+  .values-heading-{{ section.id }} {
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1.1;
+    color: #111111;
+    margin: 0;
+    font-family: var(--font-heading-family, serif);
+    letter-spacing: -0.02em;
+  }
+
+  /* Targets the italicized text to make it yellow */
+  .values-heading-{{ section.id }} em {
+    color: #ebb30b;
+    font-style: italic;
+  }
+
+  /* --- GRID AREA --- */
+  .values-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* The gap creates the thin white dividing lines because the section bg is white */
+    gap: 10px; 
+    background-color: #ffffff; 
+  }
+
+  .values-card-{{ section.id }} {
+    background-color: #0f0f0f;
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+  }
+
+  .values-card-number-{{ section.id }} {
+    color: #ebb30b;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    margin-bottom: 2.5rem;
+  }
+
+  .values-card-title-{{ section.id }} {
+    color: #ffffff;
+    font-family: var(--font-heading-family, serif);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.2;
+  }
+
+  .values-card-text-{{ section.id }} {
+    color: #a3a3a3;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .values-card-text-{{ section.id }} p {
+    margin: 0;
+  }
+
+  /* --- RESPONSIVE DESIGN --- */
+  @media screen and (max-width: 990px) {
+    .values-grid-{{ section.id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .values-header-{{ section.id }} {
+      margin-bottom: 3rem;
+    }
+    
+    .values-grid-{{ section.id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .values-card-{{ section.id }} {
+      padding: 3rem 2rem;
+    }
+  }
+{%- endstyle -%}
+
+<section class="section-{{ section.id }}">
+  <div class="values-container-{{ section.id }}">
+    
+    <div class="values-header-{{ section.id }}">
+      {%- if section.settings.kicker != blank -%}
+        <div class="values-kicker-{{ section.id }}">
+          {{ section.settings.kicker }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="values-heading-{{ section.id }}">
+          {{ section.settings.heading }}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div class="values-grid-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div class="values-card-{{ section.id }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.number != blank -%}
+            <div class="values-card-number-{{ section.id }}">
+              {{ block.settings.number }}
+            </div>
+          {%- endif -%}
+          
+          {%- if block.settings.title != blank -%}
+            <h3 class="values-card-title-{{ section.id }}">
+              {{ block.settings.title }}
+            </h3>
+          {%- endif -%}
+          
+          {%- if block.settings.text != blank -%}
+            <div class="values-card-text-{{ section.id }}">
+              {{ block.settings.text }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Values Grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header Content"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker Text",
+      "default": "WHAT WE STAND FOR"
+    },
+    {
+      "type": "html",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Faith, <em>family,</em>and fresh socks.",
+      "info": "Highlight text using the italic button to make it yellow."
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Value Card",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number/Label",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Gospel First"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description text",
+          "default": "<p>Every design carries a message — rooted in scripture, doctrine, and the stories of the Book of Mormon. We're here to celebrate what we believe, not water it down.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Values Grid",
+      "blocks": [
+        {
+          "type": "value",
+          "settings": {
+            "number": "01",
+            "title": "Gospel First",
+            "text": "<p>Every design carries a message — rooted in scripture, doctrine, and the stories of the Book of Mormon. We're here to celebrate what we believe, not water it down.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "number": "02",
+            "title": "Joy in the Journey",
+            "text": "<p>We take our faith seriously. We don't take ourselves too seriously. Fun and humor are just as much a part of the gospel as testimony — and we love a good laugh along the way.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "number": "03",
+            "title": "More Than Just Socks",
+            "text": "<p>We're building a movement that shares light, sparks conversations, and helps you walk confidently in your faith. Gathering Israel — one foot at a time.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

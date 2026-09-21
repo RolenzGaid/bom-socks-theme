@@ -1,0 +1,25 @@
+.single-sidebar-widget .search-widget button{
+  top: 50%;
+  transform: translateY(-50%);
+}
+.single-sidebar-widget .search-widget input{
+  padding-right: 30px;
+}
+.single-widget-post .content{
+  padding-left: 0;
+  padding-right: 20px;
+}
+p.article-card__excerpt, h2.article-card__title{
+  padding-right: 0px;
+}
+.article__meta {
+    display: flex;
+    gap: 12px;
+}
+.article-template .share-icons{
+  margin-left: 15px;
+}
+.article-template__link .icon-wrap {
+    transform: rotate(0deg);
+    margin-left: 1rem;
+}
